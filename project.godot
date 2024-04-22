@@ -21,6 +21,7 @@ AudioManager="*res://libs/Godot-Turbo-Library/audio/AudioManager.gd"
 
 [display]
 
+window/size/resizable=false
 window/dpi/allow_hidpi=false
 
 [rendering]
