@@ -3,12 +3,15 @@ extends Menu
 class_name MainMenu
 
 func _ready() -> void:
-	self.set_content("Main Menu", ["Start Game", "Settings"])
+	AudioManager.play_music("res://assets/audio/music/music/menu.mp3")
+	self.set_content("Main Menu", 
+	[	{"name": "Start Game"}, 
+		{"name":"Settings"}])
 
-func handle_input(action) -> void:
-	if action == "Start Game":
+func handle_input(input) -> void:
+	if input.name == "Start Game":
 		start_game()
-	elif action == "Settings":
+	elif input.name == "Settings":
 		settings()
 
 func start_game() -> void:
