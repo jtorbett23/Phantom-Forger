@@ -18,8 +18,8 @@ config/icon="res://icon.png"
 [autoload]
 
 AudioManager="*res://libs/Godot-Turbo-Library/singletons/AudioManager.gd"
-SceneManager="*res://libs/Godot-Turbo-Library/singletons/SceneManager.gd"
 Camera="*res://libs/Godot-Turbo-Library/singletons/Camera2D.gd"
+SceneManager="*res://libs/Godot-Turbo-Library/singletons/SceneManager.gd"
 
 [display]
 
