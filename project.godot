@@ -13,11 +13,13 @@ config_version=5
 config/name="Phantom-Forger"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://icon.png"
 
 [autoload]
 
 AudioManager="*res://libs/Godot-Turbo-Library/audio/AudioManager.gd"
+SceneManager="*res://libs/Godot-Turbo-Library/SceneManager.gd"
+Camera="*res://libs/Godot-Turbo-Library/Camera2D.gd"
 
 [display]
 
