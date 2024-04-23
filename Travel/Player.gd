@@ -66,9 +66,9 @@ func remove_interact(updated_interactable : Interactable) -> void:
 		action_marker.visible = false
 		self.interactable = updated_interactable
 
-func enable_player():
+func enable_player() -> void:
 	self.enabled = true
 
-func disable_player():
+func disable_player() -> void:
 	self.enabled = false
 

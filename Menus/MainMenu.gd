@@ -3,10 +3,11 @@ extends MenuTurbo
 class_name MainMenu
 
 var travel_scene : String = "res://Travel/travel.tscn"
+var music_path : String = "res://assets/audio/music/menu.mp3"
 
 func _ready() -> void:
 	Camera.set_static()
-	AudioManager.play_music("res://assets/audio/music/menu.mp3")
+	AudioManager.play_music(music_path)
 	self.set_content("Phantom Forger", 
 	[	{"name": "Start Game", "callback": Callable(self, "start_game")}, 
 		{"name":"Settings", "callback": Callable(self, "settings")}])
