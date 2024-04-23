@@ -48,7 +48,7 @@ func _physics_process(delta) -> void:
 		animate_movement(-rotate_value)
 	elif Input.is_action_just_pressed("interact"):
 		if(interactable != null):
-			interactable.interact()
+			interactable.interact(self)
 	else:
 		velocity.x = 0
 		sprite.rotation = deg_to_rad(0)

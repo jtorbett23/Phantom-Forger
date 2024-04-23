@@ -1,4 +1,4 @@
 extends Interactable
 
-func interact() -> void:
-	SceneManager.change_scene(self, "res://Draw/draw.tscn")
+func interact(_target = null) -> void:
+	SceneManager.change_scene(self.owner, "res://Draw/draw.tscn")

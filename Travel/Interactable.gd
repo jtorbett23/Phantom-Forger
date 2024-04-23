@@ -14,5 +14,5 @@ func on_body_exit(body) -> void:
 	if(body.name == "Player"):
 		body.set_interact(null)
 
-func interact() -> void:
+func interact(_target = null) -> void:
 	pass
