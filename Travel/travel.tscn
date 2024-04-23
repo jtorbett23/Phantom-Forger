@@ -3215,8 +3215,7 @@ position = Vector2(3.33333, 3.33337)
 shape = SubResource("RectangleShape2D_0ih37")
 
 [node name="Office-Entrance" type="Area2D" parent="Interactables" node_paths=PackedStringArray("connection")]
-position = Vector2(2747.33, 265)
-scale = Vector2(1.06667, 1.06667)
+position = Vector2(2758, 275.333)
 script = ExtResource("5_uib07")
 connection = NodePath("../Office-Exit")
 

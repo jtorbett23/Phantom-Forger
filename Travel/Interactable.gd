@@ -12,7 +12,7 @@ func on_body_enter(body) -> void:
 
 func on_body_exit(body) -> void:
 	if(body.name == "Player"):
-		body.set_interact(null)
+		body.remove_interact(self)
 
 func interact(_target = null) -> void:
 	pass

@@ -13,6 +13,7 @@ var rotate_value : int = 15
 var col_shape_flip_offset : float
 var action_marker_flip_offset : float
 var interactable : Interactable
+var enabled : bool = false
 
 func _ready():
 	col_shape_flip_offset = collision_shape.position.x
@@ -40,23 +41,34 @@ func animate_movement(player_rotation : int) -> void:
 			sprite.rotation = -sprite.rotation
 
 func _physics_process(delta) -> void:
-	if Input.is_action_pressed("move_right"):
-		handle_movement(player_speed, delta)
-		animate_movement(rotate_value)
-	elif Input.is_action_pressed("move_left"):
-		handle_movement(-player_speed, delta)
-		animate_movement(-rotate_value)
-	elif Input.is_action_just_pressed("interact"):
-		if(interactable != null):
-			interactable.interact(self)
-	else:
-		velocity.x = 0
-		sprite.rotation = deg_to_rad(0)
-	move_and_collide(velocity * delta)
+	if(enabled):
+		if Input.is_action_pressed("move_right"):
+			handle_movement(player_speed, delta)
+			animate_movement(rotate_value)
+		elif Input.is_action_pressed("move_left"):
+			handle_movement(-player_speed, delta)
+			animate_movement(-rotate_value)
+		elif Input.is_action_just_pressed("interact"):
+			if(interactable != null):
+				disable_player()
+				interactable.interact(self)
+		else:
+			velocity.x = 0
+			sprite.rotation = deg_to_rad(0)
+		move_and_collide(velocity * delta)
 
 func set_interact(updated_interactable : Interactable) -> void: 
+	action_marker.visible = true
 	self.interactable = updated_interactable
-	if(interactable == null):
+
+func remove_interact(updated_interactable : Interactable) -> void: 
+	if(updated_interactable == interactable):
 		action_marker.visible = false
-	else:
-		action_marker.visible = true
+		self.interactable = updated_interactable
+
+func enable_player():
+	self.enabled = true
+
+func disable_player():
+	self.enabled = false
+
