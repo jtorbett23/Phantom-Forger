@@ -1,8 +1,27 @@
-[gd_scene format=3 uid="uid://dt2qrhcqwce4a"]
+[gd_scene load_steps=6 format=3 uid="uid://dt2qrhcqwce4a"]
+
+[ext_resource type="Script" path="res://Travel/Travel.gd" id="1_0pstx"]
+[ext_resource type="Texture2D" uid="uid://xupih481s0gs" path="res://assets/art/herb.png" id="1_3kko2"]
+[ext_resource type="Script" path="res://Travel/Player.gd" id="1_upt5d"]
+[ext_resource type="Texture2D" uid="uid://bycg2a4lq8ri1" path="res://assets/art/q-mark.png" id="3_3u5lk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2bbjb"]
+size = Vector2(239, 186)
 
 [node name="Travel" type="Node2D"]
+script = ExtResource("1_0pstx")
 
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "TRAVEL"
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("1_upt5d")
+
+[node name="Sprite" type="Sprite2D" parent="Player"]
+texture = ExtResource("1_3kko2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(50, 93)
+shape = SubResource("RectangleShape2D_2bbjb")
+
+[node name="ActionMarker" type="Sprite2D" parent="Player"]
+visible = false
+position = Vector2(35, -284)
+texture = ExtResource("3_3u5lk")
