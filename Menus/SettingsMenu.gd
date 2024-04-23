@@ -4,20 +4,13 @@ class_name SettingsMenu
 
 func _ready() -> void:
 	self.set_content("Settings", 
-	[	{"name": "Master", "type": "HSlider", "value": AudioManager.current_master_level},
-		{"name": "Music", "type": "HSlider", "value": AudioManager.current_music_level},
-		{"name": "Sound", "type": "HSlider", "value": AudioManager.current_sound_level},
-		{"name":"Return to Main Menu"}])
-
-func handle_input(input) -> void:
-	if input.name == "Return to Main Menu":
-		return_to_main()
-	elif input.name == "Music":
-		AudioManager.set_music_volume(input.value)
-	elif input.name == "Sound":
-		AudioManager.set_sound_volume(input.value)
-	elif input.name == "Master":
-		AudioManager.set_master_volume(input.value)
+	[	{"name": "Master", "type": Menu.types.HSLIDER, 
+		"value": AudioManager.current_master_level, "callback": Callable(AudioManager, "set_master_volume")},
+		{"name": "Music", "type": Menu.types.HSLIDER, 
+		"value": AudioManager.current_music_level, "callback": Callable(AudioManager, "set_music_volume")},
+		{"name": "Sound", "type": Menu.types.HSLIDER, 
+		"value": AudioManager.current_sound_level, "callback": Callable(AudioManager, "set_sound_volume")},
+		{"name":"Return to Main Menu", "callback": Callable(self, "return_to_main") }])
 
 func return_to_main() -> void:
 	self.queue_free()
