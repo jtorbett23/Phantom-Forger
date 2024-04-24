@@ -3224,7 +3224,6 @@ texture = ExtResource("11_nv76l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Office-Entrance"]
 position = Vector2(-25.3125, 14.0625)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_8obw2")
 
 [node name="Hall-Exit-1" type="Area2D" parent="Interactables"]
