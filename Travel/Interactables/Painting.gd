@@ -28,11 +28,11 @@ func _ready():
 func interact(target = null) -> void:
 	if(state.placed == true and state.forged == false):
 		var question : String = "Are you sure you want to take this painting?\n If you do you must replace it with a forgery."
-		var popup = PopupTurbo.new(question, PopupTurbo.QUESTION, Callable(self, "remove_original").bind(target),  Callable(target, "enable_player"))
+		var popup = PopupTurbo.new(question, PopupTurbo.QUESTION, Callable(target, "enable_player"), Callable(self, "remove_original").bind(target))
 		Camera.add_ui(popup)
 	elif(state.placed == false and state.forged == false):
 		var message : String = "You still need to make a forgery for this painting."
-		var popup = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(self, "remove_original").bind(target),  Callable(target, "enable_player"))
+		var popup = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"))
 		Camera.add_ui(popup)
 
 
