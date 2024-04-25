@@ -48,14 +48,17 @@ func _physics_process(delta) -> void:
 		elif Input.is_action_pressed("move_left"):
 			handle_movement(-player_speed, delta)
 			animate_movement(-rotate_value)
-		elif Input.is_action_just_pressed("interact"):
-			if(interactable != null):
-				disable_player()
-				interactable.interact(self)
 		else:
 			velocity.x = 0
 			sprite.rotation = deg_to_rad(0)
 		move_and_collide(velocity * delta)
+	
+		
+		if Input.is_action_just_pressed("interact"):
+			if(interactable != null):
+				disable_player()
+				interactable.interact(self)
+
 
 func set_interact(updated_interactable : Interactable) -> void: 
 	action_marker.visible = true
