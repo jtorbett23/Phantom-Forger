@@ -8,6 +8,7 @@ var music_path : String = "res://assets/audio/music/nighttime.mp3"
 
 
 func _ready() -> void:
+	PaintingState.count = 0
 	AudioManager.play_music(music_path)
 	Camera.set_follow(player)
 	set_office_limits()

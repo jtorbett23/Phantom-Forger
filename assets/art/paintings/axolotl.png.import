@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://du1gueb3y2h24"
-path="res://.godot/imported/bunny-slippers.png-0af925eef760f0c3b4cf9d9f75263e31.ctex"
+uid="uid://va1e4ek07vk1"
+path="res://.godot/imported/axolotl.png-1f0af206720610919b617e7d4877dcf5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/paintings/bunny-slippers.png"
-dest_files=["res://.godot/imported/bunny-slippers.png-0af925eef760f0c3b4cf9d9f75263e31.ctex"]
+source_file="res://assets/art/paintings/axolotl.png"
+dest_files=["res://.godot/imported/axolotl.png-1f0af206720610919b617e7d4877dcf5.ctex"]
 
 [params]
 

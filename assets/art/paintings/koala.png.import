@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://du1gueb3y2h24"
-path="res://.godot/imported/bunny-slippers.png-0af925eef760f0c3b4cf9d9f75263e31.ctex"
+uid="uid://b4kxl1y3ijoe6"
+path="res://.godot/imported/koala.png-e5403ba64b0f6dc6b3ab0cead2b9b740.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/paintings/bunny-slippers.png"
-dest_files=["res://.godot/imported/bunny-slippers.png-0af925eef760f0c3b4cf9d9f75263e31.ctex"]
+source_file="res://assets/art/paintings/koala.png"
+dest_files=["res://.godot/imported/koala.png-e5403ba64b0f6dc6b3ab0cead2b9b740.ctex"]
 
 [params]
 

@@ -3196,9 +3196,37 @@ scale = Vector2(1.5, 1.5)
 
 [node name="Paintings" type="Node2D" parent="Interactables"]
 
-[node name="Painting" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
-position = Vector2(2566, 255.333)
-frame_id = 2
+[node name="Painting-1" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(1630, 266)
+scale = Vector2(0.2, 0.2)
+
+[node name="Painting-2" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(1940.67, 250)
+scale = Vector2(0.2, 0.2)
+
+[node name="Painting-3" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(2354, 258)
+scale = Vector2(0.2, 0.2)
+
+[node name="Painting-4" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(2575.33, 255.333)
+scale = Vector2(0.2, 0.2)
+
+[node name="Painting-5" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(3180.67, 280.667)
+scale = Vector2(0.2, 0.2)
+
+[node name="Painting-6" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(3636.67, 276.667)
+scale = Vector2(0.2, 0.2)
+
+[node name="Painting-7" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(4106, 228.667)
+scale = Vector2(0.2, 0.2)
+
+[node name="Painting-8" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(4275.33, 264.667)
+scale = Vector2(0.2, 0.2)
 
 [node name="Computer" type="Area2D" parent="Interactables"]
 position = Vector2(708, 240.667)

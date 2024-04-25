@@ -13,6 +13,7 @@ func _ready() -> void:
 		{"name":"Settings", "callback": Callable(self, "settings")}])
 
 func start_game() -> void:
+	GameState.setup_paintings(8)
 	var travel_instance = load(travel_scene).instantiate()
 	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
 
