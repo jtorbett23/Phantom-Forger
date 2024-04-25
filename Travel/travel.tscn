@@ -1,14 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://dt2qrhcqwce4a"]
+[gd_scene load_steps=21 format=3 uid="uid://dt2qrhcqwce4a"]
 
 [ext_resource type="Script" path="res://Travel/Travel.gd" id="1_0pstx"]
 [ext_resource type="Texture2D" uid="uid://xupih481s0gs" path="res://assets/art/herb.png" id="1_3kko2"]
 [ext_resource type="Script" path="res://Travel/Player.gd" id="1_upt5d"]
 [ext_resource type="Texture2D" uid="uid://cumnmm5qmh85h" path="res://assets/art/office.png" id="2_xqoly"]
 [ext_resource type="Texture2D" uid="uid://bycg2a4lq8ri1" path="res://assets/art/q-mark.png" id="3_3u5lk"]
-[ext_resource type="Script" path="res://Travel/Computer.gd" id="3_ndisc"]
-[ext_resource type="Script" path="res://Travel/Door.gd" id="5_uib07"]
-[ext_resource type="Script" path="res://Travel/Exit.gd" id="6_8agf1"]
+[ext_resource type="Script" path="res://Travel/Interactables/Computer.gd" id="3_ndisc"]
+[ext_resource type="Script" path="res://Travel/Interactables/Door.gd" id="5_uib07"]
+[ext_resource type="Script" path="res://Travel/Interactables/Exit.gd" id="6_8agf1"]
 [ext_resource type="Texture2D" uid="uid://ccloew5tcvb01" path="res://assets/art/computer.png" id="6_ct1p4"]
+[ext_resource type="PackedScene" uid="uid://cgtc1gokme5f3" path="res://Travel/Interactables/Painting.tscn" id="7_rc0ci"]
 [ext_resource type="TileSet" uid="uid://1x3pf4sadsuc" path="res://Travel/halls.tres" id="7_xamvd"]
 [ext_resource type="Texture2D" uid="uid://dpdv572dxy1vi" path="res://assets/art/door.png" id="11_nv76l"]
 
@@ -3193,6 +3194,12 @@ script = ExtResource("1_0pstx")
 z_index = 8
 scale = Vector2(1.5, 1.5)
 
+[node name="Paintings" type="Node2D" parent="Interactables"]
+
+[node name="Painting" parent="Interactables/Paintings" instance=ExtResource("7_rc0ci")]
+position = Vector2(2566, 255.333)
+frame_id = 2
+
 [node name="Computer" type="Area2D" parent="Interactables"]
 position = Vector2(708, 240.667)
 scale = Vector2(0.2, 0.2)
@@ -3302,6 +3309,7 @@ z_index = 10
 position = Vector2(876, 470)
 scale = Vector2(0.6, 0.6)
 script = ExtResource("1_upt5d")
+enabled = true
 
 [node name="Sprite" type="Sprite2D" parent="Player"]
 texture = ExtResource("1_3kko2")

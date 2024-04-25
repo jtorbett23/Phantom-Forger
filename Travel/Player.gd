@@ -13,7 +13,7 @@ var rotate_value : int = 15
 var col_shape_flip_offset : float
 var action_marker_flip_offset : float
 var interactable : Interactable
-var enabled : bool = false
+@export var enabled : bool = false #TODO: Revert export
 
 func _ready():
 	col_shape_flip_offset = collision_shape.position.x

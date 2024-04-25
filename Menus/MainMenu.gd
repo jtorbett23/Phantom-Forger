@@ -7,7 +7,6 @@ var music_path : String = "res://assets/audio/music/menu.mp3"
 
 func _ready() -> void:
 	Camera.set_static()
-	Camera.set_limits()
 	AudioManager.play_music(music_path)
 	self.set_content("Phantom Forger", 
 	[	{"name": "Start Game", "callback": Callable(self, "start_game")}, 

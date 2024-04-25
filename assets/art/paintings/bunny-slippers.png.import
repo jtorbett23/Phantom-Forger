@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpphpi4pgj3i3"
-path="res://.godot/imported/border.png-264d4a92a994072aad8f763cd6a974c3.ctex"
+uid="uid://ctoojmu7f8dbf"
+path="res://.godot/imported/bunny-slippers.png-0af925eef760f0c3b4cf9d9f75263e31.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/border.png"
-dest_files=["res://.godot/imported/border.png-264d4a92a994072aad8f763cd6a974c3.ctex"]
+source_file="res://assets/art/paintings/bunny-slippers.png"
+dest_files=["res://.godot/imported/bunny-slippers.png-0af925eef760f0c3b4cf9d9f75263e31.ctex"]
 
 [params]
 
