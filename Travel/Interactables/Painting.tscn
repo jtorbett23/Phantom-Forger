@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://du1gueb3y2h24" path="res://assets/art/paintings/bunny-slippers.png" id="3_keuvb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x08cp"]
-size = Vector2(544, 760)
+size = Vector2(404, 760)
 
 [node name="Painting" type="Area2D"]
 scale = Vector2(0.25, 0.25)
@@ -20,5 +20,5 @@ scale = Vector2(0.635, 0.635)
 texture = ExtResource("3_keuvb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(12, 120)
+position = Vector2(-6, 120)
 shape = SubResource("RectangleShape2D_x08cp")
