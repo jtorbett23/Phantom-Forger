@@ -11,6 +11,7 @@ func _ready() -> void:
 	self.set_content("Phantom Forger", 
 	[	{"name": "Start Game", "callback": Callable(self, "start_game")}, 
 		{"name":"Settings", "callback": Callable(self, "settings")},
+		{"name":"Credits", "callback": Callable(self, "credits")}
 		], "By Moshu")
 
 func start_game() -> void:
@@ -18,5 +19,11 @@ func start_game() -> void:
 	var travel_instance = load(travel_scene).instantiate()
 	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
 
-func settings() -> void:
-	self.add_child(SettingsMenu.new())
+func close() -> void:
+	self.queue_free()
+
+func settings():
+	Camera.add_ui(SettingsMenu.new())
+
+func credits():
+	Camera.add_ui(CreditsMenu.new())
