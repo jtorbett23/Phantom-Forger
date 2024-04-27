@@ -29,9 +29,5 @@ func close() -> void:
 
 func set_game_tint(index : int, dropdown: OptionButton) -> void:
 	var colour_name : String = dropdown.get_item_text(index)
-	if colour_name == "Default":
-		Camera.set_tint(Camera.tint.GAME, Color.WHITE)
-	elif colour_name == "Pink":
-		Camera.set_tint(Camera.tint.GAME, Color.LIGHT_PINK)
-	elif colour_name == "Blue":
-		Camera.set_tint(Camera.tint.GAME, Color.LIGHT_BLUE)
+	Camera.set_tint(Camera.tint.GAME, GameState.name_to_colour[colour_name])
+

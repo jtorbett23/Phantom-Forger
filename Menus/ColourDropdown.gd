@@ -20,23 +20,12 @@ func set_content(dropdown_info : Dictionary) -> void:
 	set_sprite_colour(dropdown_info["value"])
 
 func set_sprite_colour(colour_name : String) -> void:
-	if colour_name == "Default":
-		sprite.modulate = Color.WHITE
-	elif colour_name == "Pink":
-		sprite.modulate = Color.LIGHT_PINK
-	elif colour_name == "Blue":
-		sprite.modulate = Color.LIGHT_BLUE
+	sprite.modulate = GameState.name_to_colour[colour_name]
 
 func update_colour(index) -> void:
 	var colour_name : String = dropdown.get_item_text(index)
 	GameState.game_tint_name = colour_name
-	if colour_name == "Default":
-		sprite.modulate = Color.WHITE
-	elif colour_name == "Pink":
-		sprite.modulate = Color.LIGHT_PINK
-	elif colour_name == "Blue":
-		sprite.modulate = Color.LIGHT_BLUE
-	
+	set_sprite_colour(colour_name)
 
 
 
