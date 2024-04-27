@@ -5,12 +5,11 @@ class_name CreditsMenu
 func _ready() -> void:
 	Camera.set_static()
 
-	var credits_text = "
-	Art:
+	var credits_text = "Art:
 	- Momo
-	- delapouite
+	- delapouite - https://delapouite.com
 	- caro-asercion
-	- skool
+	- skoll
 	"
 	
 	self.set_content("Credits", 
