@@ -7,7 +7,8 @@ static var free_art_paths : Array[String] = art_paths.duplicate()
 static var count : int = 0
 
 var frame_id : int = 1
-var art_path : String 
+var art_path : String
+var forgery_path : String
 var placed : bool = true
 var forged : bool = false
 

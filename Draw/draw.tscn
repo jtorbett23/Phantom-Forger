@@ -13,8 +13,15 @@ position = Vector2(42.677, 116.6)
 texture = ExtResource("2_af6do")
 centered = false
 
-[node name="Canvas" type="Sprite2D" parent="."]
-position = Vector2(597.333, 116.6)
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_left = 597.333
+offset_top = 116.6
+offset_right = 597.333
+offset_bottom = 116.6
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+
+[node name="Drawer" type="Sprite2D" parent="SubViewportContainer/SubViewport"]
 texture = ExtResource("3_a3x26")
 centered = false
 script = ExtResource("4_cgce3")

@@ -23,7 +23,11 @@ func _ready():
 		frame.texture = load(frame_path)
 		frame.position = frame_offsets[state.frame_id]
 	
-	art.texture = load(state.art_path)
+	if state.placed:
+		if !state.forged:
+			art.texture = load(state.art_path)
+		else:
+			pass
 
 func interact(target = null) -> void:
 	if(state.placed == true and state.forged == false):
