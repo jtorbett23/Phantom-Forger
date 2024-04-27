@@ -10,7 +10,8 @@ func _ready() -> void:
 	AudioManager.play_music(music_path)
 	self.set_content("Phantom Forger", 
 	[	{"name": "Start Game", "callback": Callable(self, "start_game")}, 
-		{"name":"Settings", "callback": Callable(self, "settings")}])
+		{"name":"Settings", "callback": Callable(self, "settings")},
+		], "By Moshu")
 
 func start_game() -> void:
 	GameState.setup_paintings(8)
