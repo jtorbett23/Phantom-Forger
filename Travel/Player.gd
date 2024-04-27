@@ -19,10 +19,9 @@ func _ready():
 	col_shape_flip_offset = collision_shape.position.x
 	action_marker_flip_offset = action_marker.position.x
 
-func handle_movement(speed, delta) -> void:
-	rotate_timer += delta
+func handle_movement(speed : int) -> void:
 	velocity.x = speed
-	if(speed > 0):
+	if speed > 0:
 		collision_shape.position.x = col_shape_flip_offset
 		action_marker.position.x = action_marker_flip_offset
 		sprite.flip_h = false
@@ -32,28 +31,29 @@ func handle_movement(speed, delta) -> void:
 		sprite.flip_h = true
 
 
-func animate_movement(player_rotation : int) -> void:
-	if(rotate_timer > rotate_time):
+func animate_movement(player_rotation : int, delta) -> void:
+	rotate_timer += delta
+
+	if rotate_timer > rotate_time:
 		rotate_timer = 0
-		if(sprite.rotation == 0):
+		if sprite.rotation == 0:
 			sprite.rotation = deg_to_rad(player_rotation)
 		else:
 			sprite.rotation = -sprite.rotation
 
 func _physics_process(delta) -> void:
-	if(enabled):
+	if enabled:
 		if Input.is_action_pressed("move_right"):
-			handle_movement(player_speed, delta)
-			animate_movement(rotate_value)
+			handle_movement(player_speed)
+			animate_movement(rotate_value, delta)
 		elif Input.is_action_pressed("move_left"):
-			handle_movement(-player_speed, delta)
-			animate_movement(-rotate_value)
+			handle_movement(-player_speed)
+			animate_movement(-rotate_value, delta)
 		else:
 			velocity.x = 0
 			sprite.rotation = deg_to_rad(0)
 		move_and_collide(velocity * delta)
 	
-		
 		if Input.is_action_just_pressed("interact"):
 			if(interactable != null):
 				disable_player()
