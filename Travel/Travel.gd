@@ -6,12 +6,30 @@ var music_path : String = "res://assets/audio/music/nighttime.mp3"
 @onready var halls12 : TileMap = $"Halls1-2"
 @onready var halls4 : TileMap = $Halls4
 
+var ui : Array = []
+var header : HeaderTurbo
+
 
 func _ready() -> void:
 	PaintingState.count = 0
 	AudioManager.play_music(music_path)
 	Camera.set_follow(player)
+	header = HeaderTurbo.new()
+	Camera.add_ui(header)
+	header.set_content("TravelHeader",
+	[ 
+		{"name": "Suspicion", "type": Label},
+		{"name": "Money", "type": Label},
+		{"name":"Settings", "callback": Callable(self, "settings")}]
+	)
+
+	ui.append(header)
+
 	set_office_limits()
+
+func settings() -> void:
+	player.disable_player()
+	Camera.add_ui((SettingsMenu.new(Callable(self, "post_fade_out"))))
 
 func post_fade_out() -> void:
 	player.enable_player()
