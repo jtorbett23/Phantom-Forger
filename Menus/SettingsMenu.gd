@@ -12,7 +12,7 @@ func _ready() -> void:
 	AudioManager.test_sound_path = "res://assets/audio/sound/droplet.mp3"
 	self.set_content("Settings", 
 	[	{"name": "Game Colour", "type": ColourDropDown, 
-		"values" : ["Default", "Blue", "Pink"], "value" : GameState.game_tint_name,
+		"values" : GameState.name_to_colour.keys(), "value" : GameState.game_tint_name,
 		"callback": Callable(self, "set_game_tint")},
 		{"name": "Master Volume", "type": HSliderTurbo, 
 		"value": AudioManager.current_master_level, "callback": Callable(AudioManager, "set_master_volume")},
