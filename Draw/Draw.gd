@@ -6,6 +6,7 @@ var ui : Array = []
 var header : HeaderTurbo
 var paintings : Array[PaintingState]
 var draw_states : Array[DrawState]
+var forgery_image_folder : String = "assets/art/paintings/forged"
 
 @onready var reference : Sprite2D = $Reference
 @onready var canvas_viewport : SubViewportContainer = $SubViewportContainer
@@ -85,10 +86,10 @@ func exit() -> void:
 	for index in paintings.size():
 		var forged_painting : Image = draw_states[index].image
 		if forged_painting != null:
-			var forged_path : String = "res://assets/art/paintings/forged/{0}.png".format({"0": str(paintings[index].id)})
-			forged_painting.save_png(forged_path)
+			var forgery_path : String = "{0}/{1}.png".format({"0" : forgery_image_folder,"1": str(paintings[index].id)})
+			forged_painting.save_png(forgery_path)
 			paintings[index].forged = true
-			paintings[index].forgery_path = forged_path
+			paintings[index].forgery_path = forgery_path
 
 
 	var travel_instance = load(travel_scene).instantiate()
