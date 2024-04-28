@@ -5,6 +5,8 @@ var travel_scene : String = "res://Travel/travel.tscn"
 var ui : Array = []
 var header : HeaderTurbo
 var paintings : Array[PaintingState]
+var test_paintings : Array
+var draw_states : Array[DrawState]
 
 @onready var reference : Sprite2D = $Reference
 @onready var canvas_viewport : SubViewportContainer = $SubViewportContainer
@@ -16,9 +18,23 @@ func _ready() -> void:
 	Camera.set_static()
 	header = HeaderTurbo.new()
 	Camera.add_ui(header)
+
+	#Testing Line
+	GameState.setup_paintings()
+
+	# paintings = get_avaliable_paintings()
+	test_paintings = GameState.paintings.values()
+	var art_paths : Array[String] = []
+	for p in test_paintings:
+		draw_states.append(GameState.get_draw_state(p.id))
+		art_paths.append(p.art_path)
+
+	if test_paintings:
+		reference.texture = load(test_paintings[0].art_path)
 	
 	header.set_content("DrawHeader",
-	[ 	{"name": "Brush Size", "type": VOptionButtonTurbo, "use_vbox": true, "values": GameState.brush_size_to_int.keys(), "value" : "10px",
+	[ 	{"name": "Painting", "type": VOptionButtonTurbo, "values": art_paths, "callback": Callable(self, "change_painting")},
+		{"name": "Brush Size", "type": VOptionButtonTurbo, "values": GameState.brush_size_to_int.keys(), "value" : "10px",
 		 "callback": Callable(self, "set_brush_size")},
 		{"name": "Brush Mode", "type" : VOptionButtonTurbo, "values": GameState.brush_mode_to_colour.keys(),
 		 "callback": Callable(self, "set_brush_mode")},
@@ -26,10 +42,6 @@ func _ready() -> void:
 		{"name":"Exit", "callback": Callable(self, "exit")}]
 	)
 	ui.append(header)
-
-	paintings = get_avaliable_paintings()
-	if paintings:
-		reference.texture = load(paintings[0].art_path)
 
 	# set art positions
 	var remaining_screen_y : float = get_viewport().get_size().y - header.custom_minimum_size.y - reference.texture.get_size().y
@@ -45,6 +57,11 @@ func get_avaliable_paintings() -> Array[PaintingState]:
 		if !state.placed:
 			available_paintings.append(state)
 	return available_paintings
+
+func change_painting(index : int, dropdown: OptionButton):
+	print(index)
+	reference.texture = load(test_paintings[index].art_path)
+	pass
 
 func set_brush_mode(index : int, dropdown: OptionButton) -> void:
 	drawer.colour = GameState.brush_mode_to_colour[dropdown.get_item_text(index)]

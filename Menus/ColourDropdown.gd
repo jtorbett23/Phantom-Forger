@@ -6,7 +6,6 @@ var herb_path : String = "res://assets/art/herb.png"
 var sprite : Sprite2D 
 var sprite_size : Vector2 = Vector2(100,100)
 
-
 func _init() -> void:
 	super()
 	sprite = Sprite2D.new()
@@ -26,7 +25,3 @@ func update_colour(index) -> void:
 	var colour_name : String = dropdown.get_item_text(index)
 	GameState.game_tint_name = colour_name
 	set_sprite_colour(colour_name)
-
-
-
-
