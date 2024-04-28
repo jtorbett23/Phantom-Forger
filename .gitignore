@@ -3,5 +3,8 @@
 export
 export.zip
 
+# Phantom Forger ignores
+assets/art/paintings/forged
+
 # Mac ignores
 .DS_Store

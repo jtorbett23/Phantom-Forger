@@ -5,7 +5,6 @@ var travel_scene : String = "res://Travel/travel.tscn"
 var ui : Array = []
 var header : HeaderTurbo
 var paintings : Array[PaintingState]
-var test_paintings : Array
 var draw_states : Array[DrawState]
 
 @onready var reference : Sprite2D = $Reference
@@ -22,27 +21,22 @@ func _ready() -> void:
 
 	var art_paths : Array[String] = []
 
+
 	if !test:
 		paintings = get_avaliable_paintings()
-
-		if paintings:
-			for p in paintings:
-				draw_states.append(GameState.get_draw_state(p.id))
-				art_paths.append(p.art_path)
-
-			reference.texture = load(paintings[0].art_path)
-			drawer.change_draw_state(draw_states[0])
 	else:
-		#Testing Line
 		GameState.setup_paintings()
-		test_paintings = GameState.paintings.values()
-		if test_paintings:
-			for p in test_paintings:
-				draw_states.append(GameState.get_draw_state(p.id))
-				art_paths.append(p.art_path)
+		paintings = GameState.paintings.values()
 
-			reference.texture = load(test_paintings[0].art_path)
-			drawer.draw_state = draw_states[0]
+
+	if paintings:
+		for p in paintings:
+			draw_states.append(GameState.get_draw_state(p.id))
+			art_paths.append(p.art_path)
+
+		reference.texture = load(paintings[0].art_path)
+		drawer.change_draw_state(draw_states[0])
+
 
 	header.set_content("DrawHeader",
 	[ 	{"name": "Painting", "type": VOptionButtonTurbo, "values": art_paths, "callback": Callable(self, "change_painting")},
@@ -71,10 +65,7 @@ func get_avaliable_paintings() -> Array[PaintingState]:
 	return available_paintings
 
 func change_painting(index : int, _dropdown: OptionButton) -> void:
-	if !test:
-		reference.texture = load(paintings[index].art_path)
-	else:
-		reference.texture = load(test_paintings[index].art_path)
+	reference.texture = load(paintings[index].art_path)
 	drawer.change_draw_state(draw_states[index])
 
 func set_brush_mode(index : int, dropdown: OptionButton) -> void:
@@ -88,5 +79,16 @@ func settings() -> void:
 	Camera.add_ui(SettingsMenu.new(Callable(drawer, "enable")))
 
 func exit() -> void:
+	var current_forgery : Image = drawer.viewport.get_texture().get_image()
+	drawer.draw_state.image = current_forgery
+
+	for index in paintings.size():
+		var forged_painting : Image = draw_states[index].image
+		if forged_painting != null:
+			var forged_path : String = "res://assets/art/paintings/forged/{0}.png".format({"0": str(paintings[index].id)})
+			forged_painting.save_png(forged_path)
+			paintings[index].forged = true
+
+
 	var travel_instance = load(travel_scene).instantiate()
 	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)

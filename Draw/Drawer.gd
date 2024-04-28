@@ -62,11 +62,16 @@ func _process(_delta) -> void:
 			self.texture = ImageTexture.create_from_image(original_canvas)
 
 func change_draw_state(new_state: DrawState) -> void:
+	#save image of current drawing
+	if draw_state:
+		draw_state.image = viewport.get_texture().get_image()
+
+	#handle new draw state
 	draw_state = new_state
 	if draw_state.datas.size() > redraw_limit:
 		@warning_ignore("integer_division")
 		var redraw_count : int = floor(draw_state.datas.size() / redraw_limit)
-		self.texture = ImageTexture.create_from_image(draw_state.datas[(redraw_count * redraw_limit) - 1]["image"])
+		self.texture = ImageTexture.create_from_image(draw_state.datas[(redraw_count * redraw_limit) - 1].image)
 	else:
 		self.texture = ImageTexture.create_from_image(original_canvas)
 
