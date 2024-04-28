@@ -16,8 +16,12 @@ func _ready() -> void:
 	Camera.set_static()
 	header = HeaderTurbo.new()
 	Camera.add_ui(header)
+	
 	header.set_content("DrawHeader",
-	[ 	{"name":"Settings", "callback": Callable(self, "settings")},
+	[ 	
+		{"name": "Brush-Mode", "type" : OptionButtonTurbo, "values": GameState.brush_mode_to_colour.keys(),
+		 "callback": Callable(self, "set_brush_mode")},
+		{"name":"Settings", "callback": Callable(self, "settings")},
 		{"name":"Exit", "callback": Callable(self, "exit")}]
 	)
 	ui.append(header)
@@ -41,6 +45,8 @@ func get_avaliable_paintings() -> Array[PaintingState]:
 			available_paintings.append(state)
 	return available_paintings
 
+func set_brush_mode(index : int, dropdown: OptionButton) -> void:
+	drawer.colour = GameState.brush_mode_to_colour[dropdown.get_item_text(index)]
 
 func settings() -> void:
 	drawer.disable()

@@ -7,7 +7,12 @@ static var paintings : Dictionary = {}
 static var name_to_colour : Dictionary = {
 	"Default" : Color.WHITE,
 	"Pink" : Color.LIGHT_PINK,
-	"Blue" : Color.LIGHT_BLUE
+	"Blue" : Color.LIGHT_BLUE,
+}
+
+static var brush_mode_to_colour : Dictionary = {
+	"Draw" : Color.BLACK,
+	"Erase" : Color.WHITE
 }
 
 static var game_tint_name : String = "Default"
