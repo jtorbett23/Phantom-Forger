@@ -12,6 +12,7 @@ var draw_states : Array[DrawState]
 @onready var canvas_viewport : SubViewportContainer = $SubViewportContainer
 @onready var drawer : Sprite2D = $"SubViewportContainer/SubViewport/Drawer"
 
+var test : bool = false
 
 func _ready() -> void:
 	AudioManager.play_music(music_path)
@@ -19,18 +20,33 @@ func _ready() -> void:
 	header = HeaderTurbo.new()
 	Camera.add_ui(header)
 
-	#Testing Line
-	GameState.setup_paintings()
-
-	# paintings = get_avaliable_paintings()
-	test_paintings = GameState.paintings.values()
 	var art_paths : Array[String] = []
-	for p in test_paintings:
-		draw_states.append(GameState.get_draw_state(p.id))
-		art_paths.append(p.art_path)
 
-	if test_paintings:
-		reference.texture = load(test_paintings[0].art_path)
+	if !test:
+		paintings = get_avaliable_paintings()
+
+		if paintings:
+			for p in paintings:
+				draw_states.append(GameState.get_draw_state(p.id))
+				art_paths.append(p.art_path)
+
+			reference.texture = load(paintings[0].art_path)
+			drawer.draw_state = draw_states[0]
+	else:
+		#Testing Line
+		GameState.setup_paintings()
+		test_paintings = GameState.paintings.values()
+		if test_paintings:
+			for p in test_paintings:
+				draw_states.append(GameState.get_draw_state(p.id))
+				art_paths.append(p.art_path)
+
+			reference.texture = load(test_paintings[0].art_path)
+			drawer.draw_state = draw_states[0]
+
+
+
+
 	
 	header.set_content("DrawHeader",
 	[ 	{"name": "Painting", "type": VOptionButtonTurbo, "values": art_paths, "callback": Callable(self, "change_painting")},
@@ -58,10 +74,12 @@ func get_avaliable_paintings() -> Array[PaintingState]:
 			available_paintings.append(state)
 	return available_paintings
 
-func change_painting(index : int, dropdown: OptionButton):
-	print(index)
-	reference.texture = load(test_paintings[index].art_path)
-	pass
+func change_painting(index : int, _dropdown: OptionButton) -> void:
+	if !test:
+		reference.texture = load(paintings[index].art_path)
+	else:
+		reference.texture = load(test_paintings[index].art_path)
+	drawer.change_draw_state(draw_states[index])
 
 func set_brush_mode(index : int, dropdown: OptionButton) -> void:
 	drawer.colour = GameState.brush_mode_to_colour[dropdown.get_item_text(index)]

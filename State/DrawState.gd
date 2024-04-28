@@ -2,7 +2,5 @@ extends RefCounted
 
 class_name DrawState 
 
-func _init() -> void:
-	pass
-
-
+var datas : Array[Dictionary] = []
+var prev_datas : Array[Array] = []
