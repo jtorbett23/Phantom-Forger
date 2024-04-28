@@ -18,8 +18,9 @@ func _ready() -> void:
 	Camera.add_ui(header)
 	
 	header.set_content("DrawHeader",
-	[ 	
-		{"name": "Brush-Mode", "type" : OptionButtonTurbo, "values": GameState.brush_mode_to_colour.keys(),
+	[ 	{"name": "Brush Size", "type": VOptionButtonTurbo, "use_vbox": true, "values": GameState.brush_size_to_int.keys(), "value" : "10px",
+		 "callback": Callable(self, "set_brush_size")},
+		{"name": "Brush Mode", "type" : VOptionButtonTurbo, "values": GameState.brush_mode_to_colour.keys(),
 		 "callback": Callable(self, "set_brush_mode")},
 		{"name":"Settings", "callback": Callable(self, "settings")},
 		{"name":"Exit", "callback": Callable(self, "exit")}]
@@ -47,6 +48,9 @@ func get_avaliable_paintings() -> Array[PaintingState]:
 
 func set_brush_mode(index : int, dropdown: OptionButton) -> void:
 	drawer.colour = GameState.brush_mode_to_colour[dropdown.get_item_text(index)]
+
+func set_brush_size(index: int, dropdown: OptionButton):
+	drawer.radius = GameState.brush_size_to_int[dropdown.get_item_text(index)]
 
 func settings() -> void:
 	drawer.disable()

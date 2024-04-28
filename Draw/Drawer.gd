@@ -1,6 +1,6 @@
 extends Sprite2D
 
-var radius : int = 20
+var radius : int = 10
 var colour : Color = Color.BLACK
 var draw_datas : Array[Dictionary] = []
 var prev_draw_datas : Array[Array] = []
