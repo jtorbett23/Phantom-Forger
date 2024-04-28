@@ -88,6 +88,7 @@ func exit() -> void:
 			var forged_path : String = "res://assets/art/paintings/forged/{0}.png".format({"0": str(paintings[index].id)})
 			forged_painting.save_png(forged_path)
 			paintings[index].forged = true
+			paintings[index].forgery_path = forged_path
 
 
 	var travel_instance = load(travel_scene).instantiate()

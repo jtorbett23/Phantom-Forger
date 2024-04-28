@@ -27,7 +27,10 @@ func _ready():
 		if !state.forged:
 			art.texture = load(state.art_path)
 		else:
-			pass
+			var image = Image.load_from_file(state.forgery_path)
+			art.texture = ImageTexture.create_from_image(image)
+	else:
+		art.visible = false
 
 func interact(target = null) -> void:
 	if(state.placed == true and state.forged == false):
@@ -38,9 +41,23 @@ func interact(target = null) -> void:
 		var message : String = "You still need to make a forgery for this painting."
 		var popup = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"))
 		Camera.add_ui(popup)
+	elif(state.placed == false and state.forged == true):
+		var question : String = "Are you sure you want to place this forgery?\n You cannot change it after."
+		var popup = PopupTurbo.new(question, PopupTurbo.QUESTION, Callable(target, "enable_player"), Callable(self, "place_forgery").bind(target))
+		Camera.add_ui(popup)
+	elif(state.placed == true and state.forged == true):
+		var message : String = "This painting has been forged and cannot be changed."
+		var popup = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"))
+		Camera.add_ui(popup)
 
 func remove_original(target = null) -> void:
 	target.enable_player()
 	art.visible = false
 	state.placed = false
-	
+
+func place_forgery(target = null):
+	target.enable_player()
+	var image = Image.load_from_file(state.forgery_path)
+	art.texture = ImageTexture.create_from_image(image)
+	art.visible = true
+	state.placed = true
