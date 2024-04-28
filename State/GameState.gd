@@ -6,7 +6,7 @@ static var paintings_per_level = 8
 
 static var paintings : Dictionary = {}
 
-static var draw_states : Dictionary = {}
+static var draw_states : Dictionary 
 
 static var name_to_colour : Dictionary = {
 	"Default" : Color.WHITE,
@@ -39,4 +39,5 @@ static func setup_paintings() -> void:
 	PaintingState.free_art_paths = PaintingState.art_paths.duplicate()
 	for i in range(0, paintings_per_level):
 		paintings[i] = PaintingState.new(i)
+	draw_states = {}
 	

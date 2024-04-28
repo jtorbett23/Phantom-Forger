@@ -63,6 +63,14 @@ func _process(_delta) -> void:
 
 func change_draw_state(new_state: DrawState) -> void:
 	draw_state = new_state
+	if draw_state.datas.size() > redraw_limit:
+		@warning_ignore("integer_division")
+		var redraw_count : int = floor(draw_state.datas.size() / redraw_limit)
+		self.texture = ImageTexture.create_from_image(draw_state.datas[(redraw_count * redraw_limit) - 1]["image"])
+	else:
+		self.texture = ImageTexture.create_from_image(original_canvas)
+
+
 	queue_redraw()
 
 func is_on_canvas(mouse_pos : Vector2) -> bool:

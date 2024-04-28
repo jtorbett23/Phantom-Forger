@@ -31,7 +31,7 @@ func _ready() -> void:
 				art_paths.append(p.art_path)
 
 			reference.texture = load(paintings[0].art_path)
-			drawer.draw_state = draw_states[0]
+			drawer.change_draw_state(draw_states[0])
 	else:
 		#Testing Line
 		GameState.setup_paintings()
@@ -44,10 +44,6 @@ func _ready() -> void:
 			reference.texture = load(test_paintings[0].art_path)
 			drawer.draw_state = draw_states[0]
 
-
-
-
-	
 	header.set_content("DrawHeader",
 	[ 	{"name": "Painting", "type": VOptionButtonTurbo, "values": art_paths, "callback": Callable(self, "change_painting")},
 		{"name": "Brush Size", "type": VOptionButtonTurbo, "values": GameState.brush_size_to_int.keys(), "value" : "10px",
