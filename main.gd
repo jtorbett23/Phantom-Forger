@@ -8,13 +8,24 @@ func _ready():
 	#forges
 	var image2 : Image = Image.load_from_file("res://assets/art/paintings/forged/test.png")
 	var image3 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-blank.png")
+	var image4 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-3.png")
+	var image5 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-4.png")
 	print("Compare real with attempted forge")
 	print("--------------")
 	AssetsHelper.calculate_image_similarity(image1, image2)
 
+	print("Compare real with bad forge")
+	print("--------------")
+	AssetsHelper.calculate_image_similarity(image1, image4)
+
+
 	print("Compare real with blank canvas")
 	print("--------------")
 	AssetsHelper.calculate_image_similarity(image1, image3)
+
+	print("Compare real with black canvas")
+	print("--------------")
+	AssetsHelper.calculate_image_similarity(image1, image5)
 
 	var main_menu = MainMenu.new()
 	Camera.add_ui(main_menu)
