@@ -9,8 +9,6 @@ var redraw_limit : int = 200
 @onready var viewport : SubViewport = self.get_parent()
 @onready var original_canvas : Image = self.texture.get_image()
 
-#TODO: add brush size, add current image, add saving forgery
-
 func _draw() -> void:
 	if draw_state.datas.size() > 0:
 		var start_index : int = 0

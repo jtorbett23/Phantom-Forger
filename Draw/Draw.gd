@@ -15,6 +15,8 @@ var forgery_image_folder : String = "assets/art/paintings/forged"
 var test : bool = false
 
 func _ready() -> void:
+	if OS.has_feature("web"):
+		forgery_image_folder = "."
 	AudioManager.play_music(music_path)
 	Camera.set_static()
 	header = HeaderTurbo.new()

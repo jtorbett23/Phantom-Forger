@@ -57,7 +57,19 @@ func remove_original(target = null) -> void:
 
 func place_forgery(target = null):
 	target.enable_player()
-	var image = Image.load_from_file(state.forgery_path)
-	art.texture = ImageTexture.create_from_image(image)
+	var forged_image = Image.load_from_file(state.forgery_path)
+	var original_texture : Texture2D = load(state.art_path)
+	var original_image : Image = original_texture.get_image()
+	calculate_accuracy(original_image, forged_image)
+	art.texture = ImageTexture.create_from_image(forged_image)
 	art.visible = true
 	state.placed = true
+
+	
+
+func calculate_accuracy(original : Image, forgery : Image):
+	print(original)
+	print(forgery)
+	# find a way to compare the images pixels
+
+	# save the accuracy to the painting state

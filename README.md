@@ -1,6 +1,5 @@
-TODO:
 
-- Credit Artists - https://game-icons.net:
+- Artist Credits - https://game-icons.net:
 	- delapouite
 		- koala
 		- rabbit
