@@ -16,6 +16,7 @@ var interactable : Interactable
 @export var enabled : bool = false #TODO: Revert export
 
 func _ready():
+	sprite.modulate = GameState.herb_colour
 	col_shape_flip_offset = collision_shape.position.x
 	action_marker_flip_offset = action_marker.position.x
 

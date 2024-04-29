@@ -2,7 +2,9 @@ extends RefCounted
 
 class_name GameState
 
-static var paintings_per_level = 8
+static var herb_colour : Color = Color.WHITE
+
+static var paintings_per_level : int = 8
 
 static var paintings : Dictionary = {}
 

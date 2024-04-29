@@ -32,6 +32,7 @@ func settings() -> void:
 	Camera.add_ui((SettingsMenu.new(Callable(self, "post_fade_out"))))
 
 func post_fade_out() -> void:
+	player.sprite.modulate = GameState.herb_colour
 	player.enable_player()
 
 func set_office_limits() -> void:
