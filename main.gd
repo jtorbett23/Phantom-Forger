@@ -14,18 +14,18 @@ func _ready():
 	print("--------------")
 	AssetsHelper.calculate_image_similarity(image1, image2)
 
-	print("Compare real with bad forge")
-	print("--------------")
-	AssetsHelper.calculate_image_similarity(image1, image4)
+	# print("Compare real with bad forge")
+	# print("--------------")
+	# AssetsHelper.calculate_image_similarity(image1, image4)
 
 
-	print("Compare real with blank canvas")
-	print("--------------")
-	AssetsHelper.calculate_image_similarity(image1, image3)
+	# print("Compare real with blank canvas")
+	# print("--------------")
+	# AssetsHelper.calculate_image_similarity(image1, image3)
 
-	print("Compare real with black canvas")
-	print("--------------")
-	AssetsHelper.calculate_image_similarity(image1, image5)
+	# print("Compare real with black canvas")
+	# print("--------------")
+	# AssetsHelper.calculate_image_similarity(image1, image5)
 
 	var main_menu = MainMenu.new()
 	Camera.add_ui(main_menu)

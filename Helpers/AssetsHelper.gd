@@ -34,6 +34,18 @@ static func get_file_paths(path, extension) -> Array[String]:
 	return file_paths
 
 static func calculate_image_similarity(image1: Image , image2 : Image):
+
+
+	# define 3 area of interest - these should be calcuated in advance if possible
+	# 1. a bound that surronds all the black pixels
+	# 2. a buffer that is a percentage of that box to the edge of the screen
+	# 3. a buffer to edge of screen
+	# pixels that are inside each of these boxes get scored differently
+	
+	# detect shapes within the area of interest
+	# detect groups of pixels and their size and position
+	# compare shapes based of size and position
+
 	var img1_size : Vector2i = image1.get_size()
 
 	if img1_size!= image2.get_size():
@@ -56,13 +68,22 @@ static func calculate_image_similarity(image1: Image , image2 : Image):
 	var max_dist = centre.distance_to(edge)
 	var average_dist_factor = 1 - (centre.distance_to(Vector2(128, 128)) / max_dist)
 
-
+	# shapes code
+	var line_groups : Dictionary = {}
+	var line_counter : int = 0
+	# go through in vertical lines
 	for x in range(0, img1_size.x):
+		#shapes code
+		line_counter = 0
+		line_groups[x] = {}
+		line_groups[x][line_counter] = {"points" : [], "connection" : []}
+		
 		for y in range(0, img1_size.y):
 			#using pixel by pixel comparison
 			var distance_factor = 1 - (centre.distance_to(Vector2(x,y)) / max_dist)
 			var colour_1 = image1.get_pixel(x,y)
 			var colour_2 = image2.get_pixel(x,y)
+
 			if colour_1 == colour_2:
 				if(colour_1 == Color.WHITE):
 					white_matches += 1
@@ -77,12 +98,57 @@ static func calculate_image_similarity(image1: Image , image2 : Image):
 					img_score -= (4 * distance_factor)
 			if colour_1 == Color.WHITE:
 				white_pixels_1 += 1
+
+				#shapes code
+				if line_groups[x][line_counter]["points"].size() > 0:
+					line_counter +=1
+					line_groups[x][line_counter] = {"points": [],  "connection" : []}
 			elif colour_1 == Color.BLACK:
 				black_pixels_1 += 1
+				#shapes code
+				if(line_groups.size() > 1):
+					for key in line_groups[x-1].keys():
+						if Vector2(x-1 ,y) in line_groups[x-1][key]["points"]:
+							line_groups[x-1][key]["connection"].append({"x": x, "line": line_counter})
+				line_groups[x][line_counter]["points"].append(Vector2(x,y))
 			if colour_2 == Color.WHITE:
 				white_pixels_2 += 1
 			elif colour_2 == Color.BLACK:
 				black_pixels_2 += 1
+			#shapes code
+		for key in line_groups[x].keys():
+			if line_groups[x][key]["points"].size() == 0:
+				line_groups[x].erase(key)
+
+		if line_groups[x].size() == 0:
+			line_groups.erase(x)
+	
+
+	var start_point : Dictionary = line_groups.values()[0][0]
+	var shape : Array = []
+	shape.append_array(start_point["points"])
+	var current_point : Dictionary = start_point
+
+	while current_point["connection"].size() > 0:
+		var connections = current_point["connection"]
+		for connection in connections:
+			var next_point = line_groups[connection["x"]][connection["line"]]
+			shape.append_array(next_point["points"])
+		current_point = line_groups[connections[0]["x"]][connections[0]["line"]]
+	
+	var image = Image.load_from_file("res://assets/art/canvas.png")
+
+	for point in shape:
+		image.set_pixelv(point, Color.BLUE)
+	
+	image.save_png("./WOW.png")
+	return
+		 
+
+
+
+
+
 
 	var img_score_percentage = (img_score / (((black_pixels_1 * 2) + white_pixels_1) * average_dist_factor)) * 100
 
