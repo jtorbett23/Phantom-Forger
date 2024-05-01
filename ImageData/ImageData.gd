@@ -29,7 +29,7 @@ func _init(image: Image):
 	#   	clear current line
 
 	var start_time_ms : float = Time.get_ticks_msec()
-	var shapes : Array[Array] = []
+	var shapes : Array[Dictionary] = []
 	var current_line : Array[Vector2i] = []
 
 	# generate image data
@@ -49,25 +49,25 @@ func _init(image: Image):
 					# line has ended
 					# if there are no shapes add the line
 					if shapes.size() == 0:
-						shapes.append(current_line)
+						shapes.append({"last_line": current_line, "lines": current_line})
 						current_line = []
 					# if there are shapes
 					else:
 						var connected_shapes : Array = []
 						# check what shapes are connected to the current line
-						for s: Array[Vector2i] in shapes:
-							if is_line_connected_to_shape(s, current_line):
+						for s: Dictionary in shapes:
+							if is_line_connected_to_shape(s.last_line, current_line):
 								connected_shapes.append(s)
 						# if the line is not connected to any shape
 						if connected_shapes.size() == 0:
-							shapes.append(current_line)
+							shapes.append({"last_line": current_line, "lines": current_line})
 						else:
 							# connect line to all shapes
 							var new_shape : Array = current_line
 							for s in connected_shapes:
-								new_shape.append_array(s)
+								new_shape.append_array(s.lines)
 								shapes.erase(s)
-							shapes.append(new_shape)
+							shapes.append({"last_line": current_line, "lines": new_shape})
 						current_line = []
 
 			# setup dict for shape finding
@@ -83,7 +83,9 @@ func _init(image: Image):
 
 	var duration : float = (end_time_ms - start_time_ms) / 1000
 
+	# full loop
 	# currently on bunny-slipper 11.139 seconds 
+	# new implementation - only check last line 11.023, 11.098, 11.422, 11.154
 	
 	print("function time: " + str(duration) + "s")
 
@@ -106,7 +108,7 @@ func _init(image: Image):
 		var g = rng.randf()
 		var b = rng.randf()
 		var a = rng.randf_range(0.5, 1.0)
-		for point in s:
+		for point in s.lines:
 			image.set_pixelv(point, Color(r,g,b,a))
 
 
@@ -149,13 +151,6 @@ func update_target_bounds(pos: Vector2i, min_target: Vector2i, max_target: Vecto
 		min_target.y = pos.y
 
 	return [min_target, max_target]
-
-
-func find_shapes(image_array: Array[Array]):
-
-	pass
-	
-
 
 func is_valid_position(pos: Vector2i) -> bool:
 	if pos.x < 0 or pos.y < 0:
