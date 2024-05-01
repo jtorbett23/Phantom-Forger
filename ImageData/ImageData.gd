@@ -28,7 +28,7 @@ func _init(image: Image):
 	#		if not connected to any -> add to shapes
 	#   	clear current line
 
-	var start_time_ms = Time.get_ticks_msec()
+	var start_time_ms : float = Time.get_ticks_msec()
 	var shapes : Array[Array] = []
 	var current_line : Array[Vector2i] = []
 
@@ -79,11 +79,11 @@ func _init(image: Image):
 			else:
 				colour_counts[colour] += 1
 
-	var end_time_ms = Time.get_ticks_msec()
+	var end_time_ms : float = Time.get_ticks_msec()
 
-	var duration = (end_time_ms - start_time_ms) / 1000
+	var duration : float = (end_time_ms - start_time_ms) / 1000
 
-	# currently on bunny-slipper 11 seconds (integer division)
+	# currently on bunny-slipper 11.139 seconds 
 	
 	print("function time: " + str(duration) + "s")
 
