@@ -13,6 +13,8 @@ func _ready():
 	var image5 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-4.png")
 
 
+	var image6 : Image = Image.load_from_file("res://assets/art/paintings/bunny-slippers.png")
+	var image_data = ImageData.new(image6)
 
 	# print("Compare real with attempted forge")
 	# print("--------------")

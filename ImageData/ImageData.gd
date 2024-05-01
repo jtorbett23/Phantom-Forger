@@ -28,21 +28,35 @@ func _init(image: Image):
 	#		if not connected to any -> add to shapes
 	#   	clear current line
 
-	var start_time_ms : float = Time.get_ticks_msec()
-	var shapes : Array[Array] = []
-	var current_line : Array[Vector2i] = []
-
 	# generate image data
 	for x in range(0, size.x):
 		for y in range(0, size.y):
 			var colour = image.get_pixel(x,y)
 
-			# find info for bounds
-			if colour == target_colour:
+			# find info for bounds - only c
+			if colour.r == 0:
 				var result = update_target_bounds(Vector2i(x,y), min_target, max_target)
 				min_target = result[0]
 				max_target = result[1]
-				# add to current line
+				
+			# setup dict for shape finding
+			image_dict[Vector2i(x,y)] = colour.r
+
+			# count colours for each pixel type
+			if !colour_counts.has(colour):
+				colour_counts[colour] = 1
+			else:
+				colour_counts[colour] += 1
+
+	var shapes : Array[Array] = []
+	var current_line : Array[Vector2i] = []
+	var start_time_ms : float = Time.get_ticks_msec()
+	# loop again only for needed pixels to find shapes
+	for x in range(min_target.x - 1, max_target.x + 1):
+		for y in range(min_target.y - 1, max_target.y + 1):
+			var colour = image_dict[Vector2i(x,y)]
+
+			if colour == 0:
 				current_line.append(Vector2i(x,y))
 			else:
 				if current_line.size() > 0:
@@ -70,22 +84,15 @@ func _init(image: Image):
 							shapes.append(new_shape)
 						current_line = []
 
-			# setup dict for shape finding
-			image_dict[Vector2i(x,y)] = colour
 
-			# count colours for each pixel type
-			if !colour_counts.has(colour):
-				colour_counts[colour] = 1
-			else:
-				colour_counts[colour] += 1
 
 	var end_time_ms : float = Time.get_ticks_msec()
 
 	var duration : float = (end_time_ms - start_time_ms) / 1000
-
-	# currently on bunny-slipper 11.139 seconds 
 	
-	print("function time: " + str(duration) + "s")
+	# currently on bunny-slipper 11.139 seconds 
+	print("function time total " + str(duration) + "s")
+	print("function time is connected: " + str(is_connected_duration / 1000) + "s")
 
 	@warning_ignore("integer_division")
 	bounds_max = Vector2i(
@@ -100,36 +107,45 @@ func _init(image: Image):
 	)
 	
 	# show changes
-	
-	# var rng = RandomNumberGenerator.new()
-	# # set pixels for shape example
-	# for s in shapes:
-	# 	var r = rng.randf()
-	# 	var g = rng.randf()
-	# 	var b = rng.randf()
-	# 	var a = rng.randf_range(0.5, 1.0)
-	# 	for point in s:
-	# 		image.set_pixelv(point, Color(r,g,b,a))
+
+	var rng = RandomNumberGenerator.new()
+	# set pixels for shape example
+	for s in shapes:
+		var r = rng.randf()
+		var g = rng.randf()
+		var b = rng.randf()
+		var a = rng.randf_range(0.5, 1.0)
+		for point in s:
+			image.set_pixelv(point, Color(r,g,b,a))
 
 
 
-	# # set pixels for bounding box
-	# for x in range(0, size.x):
-	# 	for y in range(0, size.y):
-	# 		if x == bounds_min.x or x == bounds_max.x:
-	# 			image.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
-	# 		if y  == bounds_min.y or y == bounds_max.y:
-	# 			image.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
+	# set pixels for bounding box
+	for x in range(0, size.x):
+		for y in range(0, size.y):
+			if x == bounds_min.x or x == bounds_max.x:
+				image.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
+			if y  == bounds_min.y or y == bounds_max.y:
+				image.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
 
-	# # print updated image 
-	# image.save_png("./WOW.png")
+	# print updated image 
+	image.save_png("./WOW.png")
 
+var is_connected_duration : float = 0
 
 func is_line_connected_to_shape(shape : Array[Vector2i], line : Array[Vector2i]):
+
+		var start_time : float = Time.get_ticks_msec()
+		var end_time : float
 		for point in line:
-			if (point + Vector2i(-1, 0)) in shape:
+			if shape.has(point + Vector2i(-1, 0)):
+				end_time = Time.get_ticks_msec()
+				is_connected_duration += (end_time - start_time)
 				return true
+		end_time = Time.get_ticks_msec()
+		is_connected_duration += (end_time - start_time)
 		return false
+
 
 
 func update_target_bounds(pos: Vector2i, min_target: Vector2i, max_target: Vector2i) -> Array:
