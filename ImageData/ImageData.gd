@@ -51,18 +51,30 @@ func _init(image: Image, id : String):
 
 	var end_time_data_ms : float = Time.get_ticks_msec()
 
-	
+	var compare_bounds_min : Vector2i = min_target
+	var compare_bounds_max : Vector2i = max_target
+	print(compare_bounds_min)
+	print(compare_bounds_max)
+	if compare_bounds_min.x > 0:
+		compare_bounds_min.x = compare_bounds_min.x - 1
+	if compare_bounds_min.y > 0:
+		compare_bounds_min.y = compare_bounds_min.y - 1
+	if compare_bounds_max.x <= size.x - 2:
+		compare_bounds_max.x = compare_bounds_max.x + 2
+	if compare_bounds_max.y <= size.y - 2:
+		compare_bounds_max.y = compare_bounds_max.y + 2
+
 	var shapes : Array[Dictionary] = []
 	var current_line : Array[Vector2i] = []
 	var start_time_shapes_ms : float = Time.get_ticks_msec()
 	# loop again only for needed pixels to find shapes
-	for x in range(min_target.x -1, max_target.x + 2):
-		for y in range(min_target.y -1 , max_target.y + 2):
+	for x in range(compare_bounds_min.x, compare_bounds_max.x):
+		for y in range(compare_bounds_min.y ,compare_bounds_max.y):
 			var colour = image_dict[Vector2i(x,y)]
 
 			if colour == target_colour:
 				current_line.append(Vector2i(x,y))
-			else:
+			if colour != target_colour or y == compare_bounds_max.y - 1:
 				if current_line.size() > 0:
 					# line has ended
 					# if there are no shapes add the line

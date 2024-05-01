@@ -19,6 +19,7 @@ func _ready():
 	# var image4 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-3.png")
 	# var image5 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-4.png")
 
+	# ImageData.new(image5, "1")
 	ImageData.new(real1 , "1")
 	ImageData.new(real2 , "2")
 	ImageData.new(real3 , "3")
