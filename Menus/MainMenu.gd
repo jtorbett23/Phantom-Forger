@@ -15,9 +15,11 @@ func _ready() -> void:
 		], "By Moshu")
 
 func start_game() -> void:
-	GameState.setup_paintings()
-	var travel_instance = load(travel_scene).instantiate()
-	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
+	var image6 : Image = Image.load_from_file("res://assets/art/paintings/bunny-slippers.png")
+	var image_data = ImageData.new(image6)
+	# GameState.setup_paintings()
+	# var travel_instance = load(travel_scene).instantiate()
+	# SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
 
 func close() -> void:
 	self.queue_free()
