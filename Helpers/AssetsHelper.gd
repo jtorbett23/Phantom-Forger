@@ -17,6 +17,15 @@ static func setup_paintings() -> void:
 				if(image.get_pixel(w,h) != Color.WHITE):
 					image.set_pixel(w,h,Color.BLACK)
 		image.save_png(path)
+
+static func resize_paintings(size: Vector2i) -> void:
+	var painting_paths = get_file_paths(paintings_folder_path, "png")
+
+	for path in painting_paths:
+		var text = load(path)
+		var image : Image = text.get_image()
+		image.resize(size.x, size.y)
+		image.save_png(path)
 			
 
 static func get_file_paths(path, extension) -> Array[String]:

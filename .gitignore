@@ -5,8 +5,7 @@ export.zip
 
 # Phantom Forger ignores
 assets/art/paintings/forged
-WOW.png
-WOW.png.import
+test
 
 # Mac ignores
 .DS_Store

@@ -6,94 +6,98 @@ var size : Vector2i
 var bounds_max : Vector2i
 var bounds_min : Vector2i
 const target_colour = Color.BLACK
+const compare_size = Vector2i(300,300)
 
 
-func _init(image: Image):
+func _init(image: Image, id : String):
 	
+	image.resize(compare_size.x, compare_size.y)
+
 	size = image.get_size()
 
 	var colour_counts : Dictionary = {}
-	var image_dict : Dictionary
 	var min_target : Vector2i
 	var max_target : Vector2i
+	var image_dict : Dictionary
 
-	# during these steps 
-	# if pixel is of target colour -> add pixel to line
-	# else 
-	#	if shapes empty -> add line to shapes
-	#   else
-	#		for shape in shapes
-	#			if line connected to shape
-	#				remove all conneceted shapes and combine -> place back in shapes
-	#		if not connected to any -> add to shapes
-	#   	clear current line
-
+	var start_time_data_ms : float = Time.get_ticks_msec()
 	# generate image data
 	for x in range(0, size.x):
 		for y in range(0, size.y):
 			var colour = image.get_pixel(x,y)
+			if(colour != Color.BLACK and colour != Color.WHITE):
+				image.set_pixel(x,y, Color.BLACK)
+	
+	var img_texture : ImageTexture = ImageTexture.create_from_image(image)
+	image = img_texture.get_image()
 
+	for x in range(0, size.x):
+		for y in range(0, size.y):
+			var colour = image.get_pixel(x,y)
+			image_dict[Vector2i(x,y)] = colour
 			# find info for bounds - only c
-			if colour.r == 0:
+			if colour == target_colour:
 				var result = update_target_bounds(Vector2i(x,y), min_target, max_target)
 				min_target = result[0]
 				max_target = result[1]
 				
-			# setup dict for shape finding
-			image_dict[Vector2i(x,y)] = colour.r
-
 			# count colours for each pixel type
 			if !colour_counts.has(colour):
 				colour_counts[colour] = 1
 			else:
 				colour_counts[colour] += 1
 
-	var shapes : Array[Array] = []
+	print(colour_counts.size())
+
+	var end_time_data_ms : float = Time.get_ticks_msec()
+
+	
+	var shapes : Array[Dictionary] = []
 	var current_line : Array[Vector2i] = []
-	var start_time_ms : float = Time.get_ticks_msec()
+	var start_time_shapes_ms : float = Time.get_ticks_msec()
 	# loop again only for needed pixels to find shapes
-	for x in range(min_target.x - 1, max_target.x + 1):
-		for y in range(min_target.y - 1, max_target.y + 1):
+	for x in range(min_target.x -1, max_target.x + 2):
+		for y in range(min_target.y -1 , max_target.y + 2):
 			var colour = image_dict[Vector2i(x,y)]
 
-			if colour == 0:
+			if colour == target_colour:
 				current_line.append(Vector2i(x,y))
 			else:
 				if current_line.size() > 0:
 					# line has ended
 					# if there are no shapes add the line
 					if shapes.size() == 0:
-						shapes.append(current_line)
+						shapes.append({"last_x": x, "last_line": current_line, "lines" :current_line})
 						current_line = []
 					# if there are shapes
 					else:
 						var connected_shapes : Array = []
 						# check what shapes are connected to the current line
-						for s: Array[Vector2i] in shapes:
-							if is_line_connected_to_shape(s, current_line):
+						for s: Dictionary in shapes:
+							if (s.last_x == x - 1 or s.last_x == x) and is_line_connected_to_shape(s.last_line, current_line):
 								connected_shapes.append(s)
 						# if the line is not connected to any shape
 						if connected_shapes.size() == 0:
-							shapes.append(current_line)
+							shapes.append({"last_x": x, "last_line": current_line, "lines" : current_line})
 						else:
 							# connect line to all shapes
 							var new_shape : Array = current_line
 							for s in connected_shapes:
-								new_shape.append_array(s)
+								new_shape.append_array(s.lines)
 								shapes.erase(s)
-							shapes.append(new_shape)
+							shapes.append({"last_x": x, "last_line": current_line, "lines" : new_shape})
 						current_line = []
 
 
 
-	var end_time_ms : float = Time.get_ticks_msec()
+	var end_time_shapes_ms : float = Time.get_ticks_msec()
 
-	var duration : float = (end_time_ms - start_time_ms) / 1000
-	
-	# currently on bunny-slipper 11.139 seconds 
-	print("function time total " + str(duration) + "s")
-	print("function time is connected: " + str(is_connected_duration / 1000) + "s")
+	var duration_data : float = (end_time_data_ms - start_time_data_ms) / 1000
+	var duration_shape : float = (end_time_shapes_ms - start_time_shapes_ms) / 1000
 
+	print("data gather time" + str(duration_data) + "s")
+	print("shape gather time" + str(duration_shape) + "s")
+	print("shape count: " + str(shapes.size()))
 	@warning_ignore("integer_division")
 	bounds_max = Vector2i(
 		size.x - (size.x - max_target.x) / 2,
@@ -115,10 +119,8 @@ func _init(image: Image):
 		var g = rng.randf()
 		var b = rng.randf()
 		var a = rng.randf_range(0.5, 1.0)
-		for point in s:
+		for point in s.lines:
 			image.set_pixelv(point, Color(r,g,b,a))
-
-
 
 	# set pixels for bounding box
 	for x in range(0, size.x):
@@ -128,22 +130,15 @@ func _init(image: Image):
 			if y  == bounds_min.y or y == bounds_max.y:
 				image.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
 
-	# print updated image 
-	image.save_png("./WOW.png")
+	# print updated image
+	var image_path = "./test/WOW" + id + ".png"
+	image.save_png(image_path)
 
-var is_connected_duration : float = 0
 
 func is_line_connected_to_shape(shape : Array[Vector2i], line : Array[Vector2i]):
-
-		var start_time : float = Time.get_ticks_msec()
-		var end_time : float
 		for point in line:
 			if shape.has(point + Vector2i(-1, 0)):
-				end_time = Time.get_ticks_msec()
-				is_connected_duration += (end_time - start_time)
 				return true
-		end_time = Time.get_ticks_msec()
-		is_connected_duration += (end_time - start_time)
 		return false
 
 
@@ -168,10 +163,6 @@ func update_target_bounds(pos: Vector2i, min_target: Vector2i, max_target: Vecto
 
 	return [min_target, max_target]
 
-
-func find_shapes(image_array: Array[Array]):
-
-	pass
 	
 
 

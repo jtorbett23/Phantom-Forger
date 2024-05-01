@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c222oojne3t7q"
-path="res://.godot/imported/whale-tail.png-35278703f4ada82acc9347cdc7b8a55a.ctex"
+uid="uid://l5hp2tuo4pxb"
+path="res://.godot/imported/whale-tail.png-430e1f9f12d14082ed86b4b7fe840048.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/paintings/whale-tail.png"
-dest_files=["res://.godot/imported/whale-tail.png-35278703f4ada82acc9347cdc7b8a55a.ctex"]
+source_file="res://assets/art/paintings/originals/whale-tail.png"
+dest_files=["res://.godot/imported/whale-tail.png-430e1f9f12d14082ed86b4b7fe840048.ctex"]
 
 [params]
 
