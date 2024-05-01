@@ -5,14 +5,19 @@ func _ready():
 	# Add Main Menu
 	#real
 	var image1 : Image = Image.load_from_file("res://assets/art/paintings/sea-star.png")
+	var image6 : Image = Image.load_from_file("res://assets/art/paintings/bunny-slippers.png")
 	#forges
 	var image2 : Image = Image.load_from_file("res://assets/art/paintings/forged/test.png")
 	var image3 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-blank.png")
 	var image4 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-3.png")
 	var image5 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-4.png")
-	print("Compare real with attempted forge")
-	print("--------------")
-	AssetsHelper.calculate_image_similarity(image1, image2)
+
+
+	var image_data = ImageData.new(image6)
+
+	# print("Compare real with attempted forge")
+	# print("--------------")
+	# AssetsHelper.calculate_image_similarity(image1, image2)
 
 	# print("Compare real with bad forge")
 	# print("--------------")
