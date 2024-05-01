@@ -28,6 +28,7 @@ func _init(image: Image):
 	#		if not connected to any -> add to shapes
 	#   	clear current line
 
+	var start_time_ms = Time.get_ticks_msec()
 	var shapes : Array[Array] = []
 	var current_line : Array[Vector2i] = []
 
@@ -77,6 +78,14 @@ func _init(image: Image):
 				colour_counts[colour] = 1
 			else:
 				colour_counts[colour] += 1
+
+	var end_time_ms = Time.get_ticks_msec()
+
+	var duration = (end_time_ms - start_time_ms) / 1000
+
+	# currently on bunny-slipper 11 seconds (integer division)
+	
+	print("function time: " + str(duration) + "s")
 
 	@warning_ignore("integer_division")
 	bounds_max = Vector2i(
