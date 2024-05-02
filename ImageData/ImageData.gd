@@ -7,12 +7,12 @@ var bounds_max : Vector2i
 var bounds_min : Vector2i
 const target_colour = Color.BLACK
 const compare_size = Vector2i(300,300)
+var shapes : Array[Dictionary] = []
+var img : Image
 
-
-func _init(image: Image, id : String):
+func _init(image: Image):
 	
 	image.resize(compare_size.x, compare_size.y)
-
 	size = image.get_size()
 
 	var colour_counts : Dictionary = {}
@@ -30,6 +30,7 @@ func _init(image: Image, id : String):
 	
 	var img_texture : ImageTexture = ImageTexture.create_from_image(image)
 	image = img_texture.get_image()
+	img = image
 
 	for x in range(0, size.x):
 		for y in range(0, size.y):
@@ -47,14 +48,13 @@ func _init(image: Image, id : String):
 			else:
 				colour_counts[colour] += 1
 
-	print(colour_counts.size())
+	print("Amount of colours: " + str(colour_counts.size()))
 
 	var end_time_data_ms : float = Time.get_ticks_msec()
 
 	var compare_bounds_min : Vector2i = min_target
 	var compare_bounds_max : Vector2i = max_target
-	print(compare_bounds_min)
-	print(compare_bounds_max)
+
 	if compare_bounds_min.x > 0:
 		compare_bounds_min.x = compare_bounds_min.x - 1
 	if compare_bounds_min.y > 0:
@@ -64,7 +64,7 @@ func _init(image: Image, id : String):
 	if compare_bounds_max.y <= size.y - 2:
 		compare_bounds_max.y = compare_bounds_max.y + 2
 
-	var shapes : Array[Dictionary] = []
+	var shapes_tracker : Array[Dictionary] = []
 	var current_line : Array[Vector2i] = []
 	var start_time_shapes_ms : float = Time.get_ticks_msec()
 	# loop again only for needed pixels to find shapes
@@ -78,26 +78,26 @@ func _init(image: Image, id : String):
 				if current_line.size() > 0:
 					# line has ended
 					# if there are no shapes add the line
-					if shapes.size() == 0:
-						shapes.append({"last_x": x, "last_line": current_line, "lines" :current_line})
+					if shapes_tracker.size() == 0:
+						shapes_tracker.append({"last_x": x, "last_line": current_line, "lines" :current_line})
 						current_line = []
 					# if there are shapes
 					else:
 						var connected_shapes : Array = []
 						# check what shapes are connected to the current line
-						for s: Dictionary in shapes:
+						for s: Dictionary in shapes_tracker:
 							if (s.last_x == x - 1 or s.last_x == x) and is_line_connected_to_shape(s.last_line, current_line):
 								connected_shapes.append(s)
 						# if the line is not connected to any shape
 						if connected_shapes.size() == 0:
-							shapes.append({"last_x": x, "last_line": current_line, "lines" : current_line})
+							shapes_tracker.append({"last_x": x, "last_line": current_line, "lines" : current_line})
 						else:
 							# connect line to all shapes
 							var new_shape : Array = current_line
 							for s in connected_shapes:
 								new_shape.append_array(s.lines)
-								shapes.erase(s)
-							shapes.append({"last_x": x, "last_line": current_line, "lines" : new_shape})
+								shapes_tracker.erase(s)
+							shapes_tracker.append({"last_x": x, "last_line": current_line, "lines" : new_shape})
 						current_line = []
 
 
@@ -109,42 +109,20 @@ func _init(image: Image, id : String):
 
 	print("data gather time" + str(duration_data) + "s")
 	print("shape gather time" + str(duration_shape) + "s")
-	print("shape count: " + str(shapes.size()))
-	@warning_ignore("integer_division")
-	bounds_max = Vector2i(
-		size.x - (size.x - max_target.x) / 2,
-		size.y - (size.y - max_target.y) / 2
-	)
+	print("shape count: " + str(shapes_tracker.size()))
 
-	@warning_ignore("integer_division")
-	bounds_min = Vector2i(
-		min_target.x / 2,
-		min_target.y / 2
-	)
-	
-	# show changes
-
-	var rng = RandomNumberGenerator.new()
-	# set pixels for shape example
-	for s in shapes:
-		var r = rng.randf()
-		var g = rng.randf()
-		var b = rng.randf()
-		var a = rng.randf_range(0.5, 1.0)
+	# calculate shape info
+	for s in shapes_tracker:
+		var shape_min : Vector2i = s.lines[0]
+		var shape_max : Vector2i = s.lines[0]
 		for point in s.lines:
-			image.set_pixelv(point, Color(r,g,b,a))
-
-	# set pixels for bounding box
-	for x in range(0, size.x):
-		for y in range(0, size.y):
-			if x == bounds_min.x or x == bounds_max.x:
-				image.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
-			if y  == bounds_min.y or y == bounds_max.y:
-				image.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
-
-	# print updated image
-	var image_path = "./test/WOW" + id + ".png"
-	image.save_png(image_path)
+			var min_max : Array = update_target_bounds(point, shape_min, shape_max)
+			shape_min = min_max[0]
+			shape_max = min_max[1]
+		s["min"] = shape_min
+		s["max"] = shape_max
+		s["centre"] = (s["max"] + s["min"]) / 2
+		shapes.append({"centre" : s["centre"], "points": s.lines})
 
 
 func is_line_connected_to_shape(shape : Array[Vector2i], line : Array[Vector2i]):
@@ -155,33 +133,51 @@ func is_line_connected_to_shape(shape : Array[Vector2i], line : Array[Vector2i])
 
 
 
-func update_target_bounds(pos: Vector2i, min_target: Vector2i, max_target: Vector2i) -> Array:
-	if !min_target:
-		min_target = pos
-	if !max_target:
-		max_target = pos
+func update_target_bounds(pos: Vector2i, min: Vector2i, max: Vector2i) -> Array:
+	if !min:
+		min = pos
+	if !max:
+		max = pos
 	
-	if pos.x > max_target.x:
-		max_target.x = pos.x
+	if pos.x > max.x:
+		max.x = pos.x
 	
-	if pos.y > max_target.y:
-		max_target.y = pos.y
+	if pos.y > max.y:
+		max.y = pos.y
 	
-	if pos.x < min_target.x:
-		min_target.x = pos.x
+	if pos.x < min.x:
+		min.x = pos.x
 	
-	if pos.y < min_target.y:
-		min_target.y = pos.y
+	if pos.y < min.y:
+		min.y = pos.y
 
-	return [min_target, max_target]
-
-	
+	return [min, max]
 
 
-func is_valid_position(pos: Vector2i) -> bool:
-	if pos.x < 0 or pos.y < 0:
-		return false
-	if pos.x > size.x - 1 or pos.y > size.y - 1:
-		return false
-	return true
+func visualise_shape(image_save_id : String):
+
+	var rng = RandomNumberGenerator.new()
+	# set pixels for shape example
+	for s in shapes:
+		var r = rng.randf()
+		var g = rng.randf()
+		var b = rng.randf()
+		var a = rng.randf_range(0.5, 1.0)
+		for point in s.points:
+			img.set_pixelv(point, Color(r,g,b,a))
+		img.set_pixelv(s.centre, Color.BLACK)
+
+	# set pixels for bounding box
+	for x in range(0, size.x):
+		for y in range(0, size.y):
+			if x == bounds_min.x or x == bounds_max.x:
+				img.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
+			if y  == bounds_min.y or y == bounds_max.y:
+				img.set_pixelv(Vector2i(x,y), Color.REBECCA_PURPLE)	
+
+	# print updated image
+	var image_path = "./test/WOW" + image_save_id + ".png"
+	img.save_png(image_path)
+
+
 
