@@ -15,7 +15,7 @@ func _ready():
 
 	# #forges
 	var fake1 : Image = Image.load_from_file("res://assets/art/paintings/forged/test.png")
-	# var image3 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-blank.png")
+	var fake2 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-blank.png")
 	# var image4 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-3.png")
 	# var image5 : Image = Image.load_from_file("res://assets/art/paintings/forged/test-4.png")
 
@@ -24,6 +24,14 @@ func _ready():
 	data1.visualise_shape("1")
 	var data2 = ImageData.new(fake1)
 	data2.visualise_shape("2")
+	var data3 = ImageData.new(fake2)
+	data3.visualise_shape("3")
+
+	print("---------")
+	data1.compare(data2)
+	print("---------")
+	data1.compare(data3)
+	print("---------")
 
 
 

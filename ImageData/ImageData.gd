@@ -8,6 +8,8 @@ var bounds_min : Vector2i
 const target_colour = Color.BLACK
 const compare_size = Vector2i(300,300)
 var shapes : Array[Dictionary] = []
+var pixel_dict : Dictionary = {}
+var colour_counts : Dictionary = {}
 var img : Image
 
 func _init(image: Image):
@@ -15,10 +17,8 @@ func _init(image: Image):
 	image.resize(compare_size.x, compare_size.y)
 	size = image.get_size()
 
-	var colour_counts : Dictionary = {}
 	var min_target : Vector2i
 	var max_target : Vector2i
-	var image_dict : Dictionary
 
 	var start_time_data_ms : float = Time.get_ticks_msec()
 	# generate image data
@@ -35,7 +35,7 @@ func _init(image: Image):
 	for x in range(0, size.x):
 		for y in range(0, size.y):
 			var colour = image.get_pixel(x,y)
-			image_dict[Vector2i(x,y)] = colour
+			pixel_dict[Vector2i(x,y)] = colour
 			# find info for bounds - only c
 			if colour == target_colour:
 				var result = update_target_bounds(Vector2i(x,y), min_target, max_target)
@@ -49,7 +49,7 @@ func _init(image: Image):
 				colour_counts[colour] += 1
 
 	print("Amount of colours: " + str(colour_counts.size()))
-
+	print(str(colour_counts))
 	var end_time_data_ms : float = Time.get_ticks_msec()
 
 	var compare_bounds_min : Vector2i = min_target
@@ -70,7 +70,7 @@ func _init(image: Image):
 	# loop again only for needed pixels to find shapes
 	for x in range(compare_bounds_min.x, compare_bounds_max.x):
 		for y in range(compare_bounds_min.y ,compare_bounds_max.y):
-			var colour = image_dict[Vector2i(x,y)]
+			var colour = pixel_dict[Vector2i(x,y)]
 
 			if colour == target_colour:
 				current_line.append(Vector2i(x,y))
@@ -131,31 +131,98 @@ func is_line_connected_to_shape(shape : Array[Vector2i], line : Array[Vector2i])
 				return true
 		return false
 
+func update_target_bounds(pos: Vector2i, minimum: Vector2i, maximum: Vector2i) -> Array:
+	if !minimum:
+		minimum = pos
+	if !maximum:
+		maximum = pos
+	
+	if pos.x > maximum.x:
+		maximum.x = pos.x
+	
+	if pos.y > maximum.y:
+		maximum.y = pos.y
+	
+	if pos.x < minimum.x:
+		minimum.x = pos.x
+	
+	if pos.y < minimum.y:
+		minimum.y = pos.y
+
+	return [minimum, maximum]
 
 
-func update_target_bounds(pos: Vector2i, min: Vector2i, max: Vector2i) -> Array:
-	if !min:
-		min = pos
-	if !max:
-		max = pos
-	
-	if pos.x > max.x:
-		max.x = pos.x
-	
-	if pos.y > max.y:
-		max.y = pos.y
-	
-	if pos.x < min.x:
-		min.x = pos.x
-	
-	if pos.y < min.y:
-		min.y = pos.y
+func compare(ref : ImageData) -> float:
+	if self.size != ref.size:
+		return -1 
 
-	return [min, max]
+	var placement_count : float = 0
+	# compare accuracy of individual points
+	for point in self.pixel_dict.keys():
+		if ref.pixel_dict[point] == self.pixel_dict[point]:
+			placement_count += 1
+
+	var placement_pixel_percent : float = (placement_count / self.pixel_dict.size()) * 100
+	print("Total pixel placement percent: " + str(placement_pixel_percent) + "%")
+
+	var same_colour_percents : Array = []
+	for colour in self.colour_counts.keys():
+		if ref.colour_counts.has(colour):
+			var diff : float = abs(self.colour_counts[colour] - ref.colour_counts[colour])
+			var same_percent : float = 100 - (( diff / self.colour_counts[colour]) * 100)
+			print(str(colour) + " same percent: " + str(same_percent) + "%")
+			same_colour_percents.append(same_percent)
+		else:
+			same_colour_percents.append(0)
+
+	var same_colour_percent : float = 0
+
+	for percent in same_colour_percents:
+		same_colour_percent += percent
+	
+	same_colour_percent = same_colour_percent / same_colour_percents.size()
+
+	print("same colours percent: " + str(same_colour_percent) + "%")
+	var diff_shapes : float = abs(self.shapes.size() - ref.shapes.size())
+	var shape_count_percent : float = 100 - ( diff_shapes / self.shapes.size() * 100)
+	print("Shape count same percent : " + str(shape_count_percent) + "%")
+
+
+	# BEST CASE - Need to check through all before assigning, might be best to remove worst shape pairs after
+	#match up shapes
+	if ref.shapes.size() > 0:
+		var shape_pairs : Array = []
+		var paired_shapes : Array = []
+		for s in ref.shapes:
+			print("ref size shape size: " + str(s.points.size()))
+
+		for s in self.shapes:
+			print("original size shape size: " + str(s.points.size()))
+			# var min_position_diff : Vector2i
+			var min_size_diff : int = abs(s.points.size() - ref.shapes[0].points.size())
+			var current_pair : Dictionary = ref.shapes[0]
+			for s_ref in ref.shapes:
+				if not s_ref in paired_shapes:
+					var new_size_diff : int = abs(s.points.size() - s_ref.points.size())
+					if new_size_diff < min_size_diff:
+						min_size_diff = new_size_diff
+						current_pair = s_ref
+			shape_pairs.append([s, current_pair])
+			paired_shapes.append(current_pair)
+
+		for pair in shape_pairs:
+			var size_diff : int = abs(pair[0].points.size() - pair[1].points.size())
+			var pos_diff : Vector2i = abs(pair[0].centre - pair[1].centre)
+			print("shape size diff: " + str(size_diff))
+			print("shape pos diff: " + str(pos_diff))
+
+	var final_percent : float = (shape_count_percent + placement_pixel_percent + same_colour_percent) / 3
+	print("final score percent: " + str(final_percent) + "%")
+
+	return 1
 
 
 func visualise_shape(image_save_id : String):
-
 	var rng = RandomNumberGenerator.new()
 	# set pixels for shape example
 	for s in shapes:
