@@ -89,7 +89,7 @@ static func calculate_image_similarity(image1: Image , image2 : Image):
 		
 		for y in range(0, img1_size.y):
 			#using pixel by pixel comparison
-			var distance_factor = 1 - (centre.distance_to(Vector2(x,y)) / max_dist)
+			var distance_factor = 1 
 			var colour_1 = image1.get_pixel(x,y)
 			var colour_2 = image2.get_pixel(x,y)
 
@@ -107,63 +107,17 @@ static func calculate_image_similarity(image1: Image , image2 : Image):
 					img_score -= (4 * distance_factor)
 			if colour_1 == Color.WHITE:
 				white_pixels_1 += 1
-
-				#shapes code
-				if line_groups[x][line_counter]["points"].size() > 0:
-					line_counter +=1
-					line_groups[x][line_counter] = {"points": [], "connect_in": [], "connect_out" : []}
 			elif colour_1 == Color.BLACK:
 				black_pixels_1 += 1
-				#shapes code
-				if(line_groups.size() > 1):
-					for key in line_groups[x-1].keys():
-						if Vector2(x-1 ,y) in line_groups[x-1][key]["points"]:
-							line_groups[x-1][key]["connect_out"].append({"x": x, "line": line_counter})
-							line_groups[x][line_counter]["connect_in"].append({"x-1": x, "line": key})
-				line_groups[x][line_counter]["points"].append(Vector2(x,y))
 			if colour_2 == Color.WHITE:
 				white_pixels_2 += 1
 			elif colour_2 == Color.BLACK:
 				black_pixels_2 += 1
-			#shapes code
-		for key in line_groups[x].keys():
-			if line_groups[x][key]["points"].size() == 0:
-				line_groups[x].erase(key)
-
-		if line_groups[x].size() == 0:
-			line_groups.erase(x)
-	
-
-
-	var start_point : Dictionary = line_groups.values()[0][0]
-	var shape : Array = []
-	shape.append_array(start_point["points"])
-	var current_point : Dictionary = start_point
-
-	while current_point["connect_out"].size() > 0:
-		var connections = current_point["connect_out"]
-		for connection in connections:
-			var next_point = line_groups[connection["x"]][connection["line"]]
-			shape.append_array(next_point["points"])
-		current_point = line_groups[connections[0]["x"]][connections[0]["line"]]
-
-		
-	var image = Image.load_from_file("res://assets/art/canvas.png")
-
-	for point in shape:
-		image.set_pixelv(point, Color.BLUE)
-	
-	image.save_png("./WOW.png")
-
-	
-		 
 
 
 
 
-
-
-	var img_score_percentage = (img_score / (((black_pixels_1 * 2) + white_pixels_1) * average_dist_factor)) * 100
+	var img_score_percentage = (img_score / (((black_pixels_1 * 2) + white_pixels_1) )) * 100
 
 	var weighting_black : float = black_pixels_1 / total_pixels
 	var weighting_white : float = white_pixels_1 / total_pixels
@@ -172,6 +126,9 @@ static func calculate_image_similarity(image1: Image , image2 : Image):
 	# print("Weighting white: " + str(weighting_white))
 
 	# calculate match of pixel colours %
+	print("MATCHES HELPER")
+	print(white_pixels_1)
+	print(black_pixels_1)
 	var black_match_percent : float = (black_matches / black_pixels_1) * 100
 	var white_match_percent : float = (white_matches / white_pixels_1) * 100
 	var weighted_combined_match_percent : float = ( (black_match_percent / weighting_white) + (white_match_percent * weighting_white)) / 2

@@ -21,17 +21,19 @@ func _ready():
 
 	# ImageData.new(image5, "1")
 	var data1 = ImageData.new(real1)
-	data1.visualise_shape("1")
+	# data1.visualise_shape("1")
 	var data2 = ImageData.new(fake1)
-	data2.visualise_shape("2")
-	var data3 = ImageData.new(fake2)
-	data3.visualise_shape("3")
+	# data2.visualise_shape("2")
+	# var data3 = ImageData.new(fake2)
+	# data3.visualise_shape("3")
 
 	print("---------")
 	data1.compare(data2)
 	print("---------")
-	data1.compare(data3)
-	print("---------")
+	AssetsHelper.calculate_image_similarity(data1.img, data2.img)
+	# print("---------")
+	# data1.compare(data3)
+	# print("---------")
 
 
 

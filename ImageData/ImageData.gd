@@ -166,6 +166,7 @@ func compare(ref : ImageData) -> float:
 	print("Total pixel placement percent: " + str(placement_pixel_percent) + "%")
 
 	var same_colour_percents : Array = []
+	print(self.colour_counts)
 	for colour in self.colour_counts.keys():
 		if ref.colour_counts.has(colour):
 			var diff : float = abs(self.colour_counts[colour] - ref.colour_counts[colour])
@@ -190,7 +191,7 @@ func compare(ref : ImageData) -> float:
 
 	# BEST CASE - Need to check through all before assigning, might be best to remove worst shape pairs after
 	#match up shapes
-	if ref.shapes.size() > 0:
+	if ref.shapes.size() > 0: # This should just fail
 		var shape_pairs : Array = []
 		var paired_shapes : Array = []
 		for s in ref.shapes:
@@ -217,6 +218,9 @@ func compare(ref : ImageData) -> float:
 			print("shape pos diff: " + str(pos_diff))
 
 	var final_percent : float = (shape_count_percent + placement_pixel_percent + same_colour_percent) / 3
+
+	if ref.shapes.size() == 0:
+		final_percent = 0
 	print("final score percent: " + str(final_percent) + "%")
 
 	return 1
