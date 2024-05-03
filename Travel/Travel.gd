@@ -26,6 +26,8 @@ func _ready() -> void:
 	ui.append(header)
 
 	set_office_limits()
+	update_header_money(GameState.money)
+	update_header_sus(GameState.suspicion)
 
 func settings() -> void:
 	player.disable_player()
@@ -48,3 +50,10 @@ func set_halls_limits() -> void:
 	var halls_start_x = halls12.position.x
 	var halls_end_x =  halls4.position.x + halls_end_limits.end.x * cellsize.x * halls4.scale.x
 	Camera.set_limits(halls_start_x, halls_end_x)
+
+func update_header_money(value: int):
+	header.update_label("Money", ": £" + str(value))
+
+func update_header_sus(value: float):
+	var rounded_value : String = str(round(value))
+	header.update_label("Suspicion", ": " + rounded_value + "%")

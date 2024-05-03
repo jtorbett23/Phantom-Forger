@@ -3,12 +3,14 @@ extends RefCounted
 class_name GameState
 
 static var herb_colour : Color = Color.WHITE
-
+static var rng : RandomNumberGenerator = RandomNumberGenerator.new()
 static var paintings_per_level : int = 8
-
 static var paintings : Dictionary = {}
-
 static var draw_states : Dictionary 
+static var value_base : int = 800
+static var value_range : int = 500
+static var money : int = 0
+static var suspicion : float = 0
 
 static var name_to_colour : Dictionary = {
 	"Default" : Color.WHITE,
@@ -27,6 +29,11 @@ static var brush_size_to_int : Dictionary = {
 	"20px" : 20,
 	"50px" : 50
 }
+
+static func reset():
+	money = 0
+	suspicion = 0
+	setup_paintings()
 
 static var game_tint_name : String = "Default"
 

@@ -15,7 +15,7 @@ func _ready() -> void:
 		], "By Moshu")
 
 func start_game() -> void:
-	GameState.setup_paintings()
+	GameState.reset()
 	var travel_instance = load(travel_scene).instantiate()
 	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
 

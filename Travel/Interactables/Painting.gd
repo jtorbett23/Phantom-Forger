@@ -34,7 +34,7 @@ func _ready():
 
 func interact(target = null) -> void:
 	if(state.placed == true and state.forged == false):
-		var question : String = "Are you sure you want to take this painting?\n If you do you must replace it with a forgery."
+		var question : String = "Are you sure you want to take this painting valued £" + str(state.value) + "?\n If you do you must replace it with a forgery."
 		var popup = PopupTurbo.new(question, PopupTurbo.QUESTION, Callable(target, "enable_player"), Callable(self, "remove_original").bind(target))
 		Camera.add_ui(popup)
 	elif(state.placed == false and state.forged == false):
@@ -64,3 +64,5 @@ func place_forgery(target = null):
 	art.texture = ImageTexture.create_from_image(forged_image)
 	art.visible = true
 	state.placed = true
+	GameState.money += state.value
+	owner.update_header_money(GameState.money)

@@ -21,24 +21,24 @@ func _ready():
 
 	#axolotol
 
-	var real1 : Image = Image.load_from_file("res://assets/art/paintings/axolotl.png")
+	# var real1 : Image = Image.load_from_file("res://assets/art/paintings/axolotl.png")
 
-	var fake1 : Image = Image.load_from_file("res://assets/art/paintings/forged/axo-1.png")
+	# var fake1 : Image = Image.load_from_file("res://assets/art/paintings/forged/axo-1.png")
 
-	# ImageData.new(image5, "1")
-	var data1 = ImageData.new(real1)
-	# data1.visualise_shape("1")
-	var data2 = ImageData.new(fake1)
-	# # data2.visualise_shape("2")
-	# var data3 = ImageData.new(fake2)
-	# # data3.visualise_shape("3")
-	# var data4 = ImageData.new(fake3)
+	# # ImageData.new(image5, "1")
+	# var data1 = ImageData.new(real1)
+	# # data1.visualise_shape("1")
+	# var data2 = ImageData.new(fake1)
+	# # # data2.visualise_shape("2")
+	# # var data3 = ImageData.new(fake2)
+	# # # data3.visualise_shape("3")
+	# # var data4 = ImageData.new(fake3)
 
-	# var data5 = ImageData.new(fake4)
+	# # var data5 = ImageData.new(fake4)
 
-	print("---------")
-	data1.compare(data2)
-	print("---------")
+	# print("---------")
+	# data1.compare(data2)
+	# print("---------")
 	# data1.compare(data3)
 	# print("---------")
 	# data1.compare(data4)
