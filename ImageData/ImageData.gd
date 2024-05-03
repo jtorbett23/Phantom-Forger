@@ -48,8 +48,8 @@ func _init(image: Image):
 			else:
 				colour_counts[colour] += 1
 
-	print("Amount of colours: " + str(colour_counts.size()))
-	print(str(colour_counts))
+	# print("Amount of colours: " + str(colour_counts.size()))
+	# print(str(colour_counts))
 	var end_time_data_ms : float = Time.get_ticks_msec()
 
 	var compare_bounds_min : Vector2i = min_target
@@ -109,7 +109,7 @@ func _init(image: Image):
 
 	print("data gather time" + str(duration_data) + "s")
 	print("shape gather time" + str(duration_shape) + "s")
-	print("shape count: " + str(shapes_tracker.size()))
+	# print("shape count: " + str(shapes_tracker.size()))
 
 	# calculate shape info
 	for s in shapes_tracker:
@@ -165,15 +165,15 @@ func compare(ref : ImageData) -> float:
 			placement_count += 1
 
 	var placement_pixel_percent : float = (placement_count / self.pixel_dict.size()) * 100
-	print("Total pixel placement percent: " + str(placement_pixel_percent) + "%")
+	# print("Total pixel placement percent: " + str(placement_pixel_percent) + "%")
 
 	var same_colour_percents : Array = []
-	print(self.colour_counts)
+	# print(self.colour_counts)
 	for colour in self.colour_counts.keys():
 		if ref.colour_counts.has(colour):
 			var diff : float = abs(self.colour_counts[colour] - ref.colour_counts[colour])
 			var same_percent : float = 100 - (( diff / self.colour_counts[colour]) * 100)
-			print(str(colour) + " same percent: " + str(same_percent) + "%")
+			# print(str(colour) + " same percent: " + str(same_percent) + "%")
 			same_colour_percents.append(same_percent)
 		else:
 			same_colour_percents.append(0)
@@ -185,21 +185,22 @@ func compare(ref : ImageData) -> float:
 	
 	same_colour_percent = same_colour_percent / same_colour_percents.size()
 
-	print("same colours percent: " + str(same_colour_percent) + "%")
+	# print("same colours percent: " + str(same_colour_percent) + "%")
 
 	var shape_size_diff_threshold : float = 0.4
 	var shape_pos_diff_threshold : float = 50
 	var shape_pairs : Array = []
+	var shape_accuracy_percent : float = 0
 	# BEST CASE - Need to check through all before assigning, might be best to remove worst shape pairs after
 	#match up shapes
 	if ref.shapes.size() > 0: # This should just fail
 		
 		var paired_shapes : Array = []
-		for s in ref.shapes:
-			print("ref size shape size: " + str(s.points.size()))
+		# for s in ref.shapes:
+		# 	print("ref size shape size: " + str(s.points.size()))
 
 		for s in self.shapes:
-			print("original size shape size: " + str(s.points.size()))
+			# print("original size shape size: " + str(s.points.size()))
 			#var min_size_diff : int = abs(s.points.size() - ref.shapes[0].points.size())
 			var min_pos_diff : float =  Vector2(s.centre).distance_to(Vector2(ref.shapes[0].centre))
 			var current_pair = null
@@ -219,24 +220,40 @@ func compare(ref : ImageData) -> float:
 				paired_shapes.append(current_pair)
 			current_pair = null
 
-		print("Paired shapes: " + str(shape_pairs.size()))
+		# print("Paired shapes: " + str(shape_pairs.size()))
+		var pair_placement_percents : Array = []
+		for i in range(0, abs(self.shapes.size() - paired_shapes.size())):
+			pair_placement_percents.append(0)
 		for pair in shape_pairs:
 			var size_diff : int = abs(pair[0].points.size() - pair[1].points.size())
 			var pos_diff : Vector2i = abs(pair[0].centre - pair[1].centre)
-			print("shape size diff: " + str(size_diff))
-			print("shape pos diff: " + str(pos_diff))
+			# print("shape size diff: " + str(size_diff))
+			# print("shape pos diff: " + str(pos_diff))
+			var shape_placement_count: float = 0
+			for point in pair[0].points:
+				if point in pair[1].points:
+					shape_placement_count += 1
+			pair_placement_percents.append((shape_placement_count / pair[0].points.size()) * 100)
+		
+		var pair_placement_percents_total : float = 0
+		for percent in pair_placement_percents:
+			pair_placement_percents_total += percent
+
+		shape_accuracy_percent = pair_placement_percents_total / pair_placement_percents.size()
+		# print("Shape accuracy : " + str(shape_accuracy_percent) + "%")
+
 	
 	var diff_shapes : float = abs(self.shapes.size() - shape_pairs.size())
 	var shape_count_percent : float = 100 - ( diff_shapes / self.shapes.size() * 100)
-	print("Shape count same percent : " + str(shape_count_percent) + "%")
+	# print("Shape count same percent : " + str(shape_count_percent) + "%")
 
-	var final_percent : float = (shape_count_percent + placement_pixel_percent + same_colour_percent) / 3
+	var final_percent : float = (shape_count_percent + placement_pixel_percent + same_colour_percent + (shape_accuracy_percent)) / 4
 
 	if shape_pairs.size() == 0: # TODO: Check the number of paired shapes
 		final_percent = 0
 	print("final score percent: " + str(final_percent) + "%")
 
-	return 1
+	return final_percent
 
 
 func visualise_shape(image_save_id : String):

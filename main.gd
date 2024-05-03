@@ -29,7 +29,7 @@ func _ready():
 	var data1 = ImageData.new(real1)
 	# data1.visualise_shape("1")
 	var data2 = ImageData.new(fake1)
-	# data2.visualise_shape("2")
+	# # data2.visualise_shape("2")
 	# var data3 = ImageData.new(fake2)
 	# # data3.visualise_shape("3")
 	# var data4 = ImageData.new(fake3)
