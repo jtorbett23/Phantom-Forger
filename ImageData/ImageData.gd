@@ -153,6 +153,8 @@ func update_target_bounds(pos: Vector2i, minimum: Vector2i, maximum: Vector2i) -
 
 
 func compare(ref : ImageData) -> float:
+
+	# TODO: consider content based filtering
 	if self.size != ref.size:
 		return -1 
 
@@ -188,29 +190,36 @@ func compare(ref : ImageData) -> float:
 	var shape_count_percent : float = 100 - ( diff_shapes / self.shapes.size() * 100)
 	print("Shape count same percent : " + str(shape_count_percent) + "%")
 
-
+	var shape_size_diff_threshold : float = 0.5
+	var shape_pos_diff_threshold : float = 50
+	var shape_pairs : Array = []
 	# BEST CASE - Need to check through all before assigning, might be best to remove worst shape pairs after
 	#match up shapes
 	if ref.shapes.size() > 0: # This should just fail
-		var shape_pairs : Array = []
+		
 		var paired_shapes : Array = []
 		for s in ref.shapes:
 			print("ref size shape size: " + str(s.points.size()))
 
 		for s in self.shapes:
 			print("original size shape size: " + str(s.points.size()))
-			# var min_position_diff : Vector2i
 			var min_size_diff : int = abs(s.points.size() - ref.shapes[0].points.size())
-			var current_pair : Dictionary = ref.shapes[0]
+			var current_pair = null
 			for s_ref in ref.shapes:
-				if not s_ref in paired_shapes:
+				if paired_shapes.find(s_ref) == -1:
 					var new_size_diff : int = abs(s.points.size() - s_ref.points.size())
-					if new_size_diff < min_size_diff:
-						min_size_diff = new_size_diff
-						current_pair = s_ref
-			shape_pairs.append([s, current_pair])
-			paired_shapes.append(current_pair)
+					var size_diff_ratio : float = new_size_diff / s.points.size()
+					if new_size_diff <= min_size_diff and size_diff_ratio < shape_size_diff_threshold:
+						# check if positions are within a range
+						if Vector2(s.centre).distance_to(Vector2(s_ref.centre)) < shape_pos_diff_threshold:
+							min_size_diff = new_size_diff
+							current_pair = s_ref
+			if(current_pair != null):
+				shape_pairs.append([s, current_pair])
+				paired_shapes.append(current_pair)
+			current_pair = null
 
+		print("Paired shapes: " + str(shape_pairs.size()))
 		for pair in shape_pairs:
 			var size_diff : int = abs(pair[0].points.size() - pair[1].points.size())
 			var pos_diff : Vector2i = abs(pair[0].centre - pair[1].centre)
@@ -219,7 +228,7 @@ func compare(ref : ImageData) -> float:
 
 	var final_percent : float = (shape_count_percent + placement_pixel_percent + same_colour_percent) / 3
 
-	if ref.shapes.size() == 0:
+	if shape_pairs.size() == 0: # TODO: Check the number of paired shapes
 		final_percent = 0
 	print("final score percent: " + str(final_percent) + "%")
 
