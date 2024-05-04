@@ -11,9 +11,17 @@ var shapes : Array[Dictionary] = []
 var pixel_dict : Dictionary = {}
 var colour_counts : Dictionary = {}
 var img : Image
+var thread : Thread
 
-func _init(image: Image):
-	
+func _init(image: Image, threaded: bool = false):
+
+	if(threaded):
+		thread = Thread.new()
+		thread.start(setup.bind(image))
+	else:
+		setup(image)
+
+func setup(image: Image):
 	image.resize(compare_size.x, compare_size.y)
 	size = image.get_size()
 
@@ -151,6 +159,10 @@ func update_target_bounds(pos: Vector2i, minimum: Vector2i, maximum: Vector2i) -
 
 	return [minimum, maximum]
 
+func compare_threaded(ref : ImageData):
+	thread = Thread.new()
+	thread.start(compare.bind(ref))
+
 
 func compare(ref : ImageData) -> float:
 
@@ -165,7 +177,7 @@ func compare(ref : ImageData) -> float:
 			placement_count += 1
 
 	var placement_pixel_percent : float = (placement_count / self.pixel_dict.size()) * 100
-	# print("Total pixel placement percent: " + str(placement_pixel_percent) + "%")
+	print("Total pixel placement percent: " + str(placement_pixel_percent) + "%")
 
 	var same_colour_percents : Array = []
 	# print(self.colour_counts)
@@ -184,8 +196,10 @@ func compare(ref : ImageData) -> float:
 		same_colour_percent += percent
 	
 	same_colour_percent = same_colour_percent / same_colour_percents.size()
+	if(same_colour_percent < 0):
+		same_colour_percent = 0
 
-	# print("same colours percent: " + str(same_colour_percent) + "%")
+	print("same colours percent: " + str(same_colour_percent) + "%")
 
 	var shape_size_diff_threshold : float = 0.4
 	var shape_pos_diff_threshold : float = 50
@@ -240,16 +254,17 @@ func compare(ref : ImageData) -> float:
 			pair_placement_percents_total += percent
 
 		shape_accuracy_percent = pair_placement_percents_total / pair_placement_percents.size()
-		# print("Shape accuracy : " + str(shape_accuracy_percent) + "%")
+		print("Shape accuracy : " + str(shape_accuracy_percent) + "%")
 
 	
 	var diff_shapes : float = abs(self.shapes.size() - shape_pairs.size())
 	var shape_count_percent : float = 100 - ( diff_shapes / self.shapes.size() * 100)
-	# print("Shape count same percent : " + str(shape_count_percent) + "%")
+	print("Shape count same percent : " + str(shape_count_percent) + "%")
 
 	var final_percent : float = (shape_count_percent + placement_pixel_percent + same_colour_percent + (shape_accuracy_percent)) / 4
 
-	if shape_pairs.size() == 0: # TODO: Check the number of paired shapes
+	#fail cases
+	if ref.colour_counts[target_colour] == 0:
 		final_percent = 0
 	print("final score percent: " + str(final_percent) + "%")
 
@@ -259,6 +274,7 @@ func compare(ref : ImageData) -> float:
 func visualise_shape(image_save_id : String):
 	var rng = RandomNumberGenerator.new()
 	# set pixels for shape example
+	print("shape count" + image_save_id + ": " + str(shapes.size()))
 	for s in shapes:
 		var r = rng.randf()
 		var g = rng.randf()
@@ -281,4 +297,6 @@ func visualise_shape(image_save_id : String):
 	img.save_png(image_path)
 
 
-
+# Thread must be disposed (or "joined"), for portability.
+func _exit_tree():
+	thread.wait_to_finish()

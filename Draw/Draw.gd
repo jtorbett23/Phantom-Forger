@@ -92,7 +92,7 @@ func exit() -> void:
 			forged_painting.save_png(forgery_path)
 			paintings[index].forged = true
 			paintings[index].forgery_path = forgery_path
-
+			paintings[index].forgery_data = ImageData.new(forged_painting, true)
 
 	var travel_instance = load(travel_scene).instantiate()
 	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)

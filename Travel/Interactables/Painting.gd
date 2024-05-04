@@ -8,10 +8,8 @@ const painting_size : Vector2 = Vector2(325,325)
 
 var id : int
 var state : PaintingState
-var thread : Thread
 
 func _ready():
-	thread = Thread.new()
 	super()
 
 	id = PaintingState.count
@@ -56,24 +54,20 @@ func remove_original(target = null) -> void:
 	target.enable_player()
 	art.visible = false
 	state.placed = false
-	# TODO: Add to thread?
-	thread.start(generate_art_image_data)
-
-func generate_art_image_data():
-	state.art_data = ImageData.new(frame.texture.get_image())
-
+	state.art_data = ImageData.new(art.texture.get_image(), true)
+	
 func place_forgery(target = null):
 	target.enable_player()
 	var forged_image = Image.load_from_file(state.forgery_path)
 	var original_texture : Texture2D = load(state.art_path)
 	var original_image : Image = original_texture.get_image()
-	AssetsHelper.calculate_image_similarity(original_image, forged_image)
 	art.texture = ImageTexture.create_from_image(forged_image)
 	art.visible = true
 	state.placed = true
+
+	state.accuracy = state.art_data.compare(state.forgery_data)
+	GameState.suspicion += (95 - state.accuracy)
+	owner.update_header_sus(GameState.suspicion)
 	GameState.money += state.value
 	owner.update_header_money(GameState.money)
 
-# Thread must be disposed (or "joined"), for portability.
-func _exit_tree():
-	thread.wait_to_finish()
