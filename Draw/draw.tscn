@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://brlntsu6ky6r8"]
 
 [ext_resource type="Script" path="res://Draw/Draw.gd" id="1_f3eym"]
-[ext_resource type="Texture2D" uid="uid://burh5v7gkqewp" path="res://assets/art/paintings/koala.png" id="2_af6do"]
+[ext_resource type="Texture2D" uid="uid://dtj6dunip7ycl" path="res://assets/art/paintings/koala.png" id="2_af6do"]
 [ext_resource type="Texture2D" uid="uid://rtcl7hwy8dw0" path="res://assets/art/canvas.png" id="3_a3x26"]
 [ext_resource type="Script" path="res://Draw/Drawer.gd" id="4_cgce3"]
 

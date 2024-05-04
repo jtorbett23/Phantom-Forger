@@ -8,8 +8,10 @@ const painting_size : Vector2 = Vector2(325,325)
 
 var id : int
 var state : PaintingState
+var thread : Thread
 
 func _ready():
+	thread = Thread.new()
 	super()
 
 	id = PaintingState.count
@@ -54,6 +56,11 @@ func remove_original(target = null) -> void:
 	target.enable_player()
 	art.visible = false
 	state.placed = false
+	# TODO: Add to thread?
+	thread.start(generate_art_image_data)
+
+func generate_art_image_data():
+	state.art_data = ImageData.new(frame.texture.get_image())
 
 func place_forgery(target = null):
 	target.enable_player()
@@ -66,3 +73,7 @@ func place_forgery(target = null):
 	state.placed = true
 	GameState.money += state.value
 	owner.update_header_money(GameState.money)
+
+# Thread must be disposed (or "joined"), for portability.
+func _exit_tree():
+	thread.wait_to_finish()
