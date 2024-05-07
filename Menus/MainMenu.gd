@@ -2,7 +2,6 @@ extends MenuTurbo
 
 class_name MainMenu
 
-var travel_scene : String = "res://Travel/travel.tscn"
 var music_path : String = "res://assets/audio/music/menu.mp3"
 
 func _ready() -> void:
@@ -16,8 +15,8 @@ func _ready() -> void:
 
 func start_game() -> void:
 	GameState.reset()
-	var travel_instance = load(travel_scene).instantiate()
-	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
+	var story_menu : StoryMenu = StoryMenu.new(Callable(self, "close"))
+	Camera.add_ui(story_menu)
 
 func close() -> void:
 	self.queue_free()
