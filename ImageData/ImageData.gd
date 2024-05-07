@@ -34,7 +34,7 @@ func setup(image: Image):
 		for y in range(0, size.y):
 			var colour = image.get_pixel(x,y)
 			if(colour != Color.BLACK and colour != Color.WHITE):
-				image.set_pixel(x,y, Color.BLACK)
+				image.set_pixel(x,y, Color.WHITE)
 	
 	var img_texture : ImageTexture = ImageTexture.create_from_image(image)
 	image = img_texture.get_image()
