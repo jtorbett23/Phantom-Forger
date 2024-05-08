@@ -6,7 +6,9 @@ func _ready() -> void:
 	Camera.set_static()
 
 	var credits_text = "Art:
+	Level & Character
 	- Momo
+	Paintings
 	- delapouite - https://delapouite.com
 	- caro-asercion
 	- skoll

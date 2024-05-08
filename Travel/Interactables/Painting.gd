@@ -67,6 +67,8 @@ func place_forgery(target = null):
 
 	state.accuracy = state.art_data.compare(state.forgery_data)
 	GameState.suspicion += (95 - state.accuracy)
+	if GameState.suspicion > 100:
+		GameState.suspicion = 100
 	owner.update_header_sus(GameState.suspicion)
 	GameState.money += state.value
 	owner.update_header_money(GameState.money)
