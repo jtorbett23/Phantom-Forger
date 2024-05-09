@@ -201,7 +201,7 @@ func compare(ref : ImageData) -> float:
 
 	print("same colours percent: " + str(same_colour_percent) + "%")
 
-	var shape_size_diff_threshold : float = 0.4
+	var shape_size_diff_threshold : float = 0.5
 	var shape_pos_diff_threshold : float = 50
 	var shape_pairs : Array = []
 	var shape_accuracy_percent : float = 0
@@ -220,11 +220,13 @@ func compare(ref : ImageData) -> float:
 			var current_pair = null
 			for s_ref in ref.shapes:
 				if paired_shapes.find(s_ref) == -1:
-					var new_size_diff : int = abs(s.points.size() - s_ref.points.size())
+					var new_size_diff : float = abs(s.points.size() - s_ref.points.size())
 					var new_pos_diff : float = Vector2(s.centre).distance_to(Vector2(s_ref.centre))
 					var size_diff_ratio : float = new_size_diff / s.points.size()
 					# check if positions are within a range
 					if Vector2(s.centre).distance_to(Vector2(s_ref.centre)) < shape_pos_diff_threshold and new_pos_diff <= min_pos_diff:
+						print("Size diffs")
+						print(size_diff_ratio)
 						if  size_diff_ratio < shape_size_diff_threshold: # new_size_diff <= min_size_diff and
 								min_pos_diff = new_pos_diff
 								current_pair = s_ref
