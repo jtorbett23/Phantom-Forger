@@ -51,11 +51,19 @@ func interact(target = null) -> void:
 		Camera.add_ui(popup)
 
 func remove_original(target = null) -> void:
+	var take_popup : PopupTurbo = PopupTurbo.new("Taking painting...", PopupTurbo.STATIC)
+	Camera.add_ui(take_popup)
+	await RenderingServer.frame_post_draw
+	take_popup.make_callback(Callable(self, "calculate_original_image_data"))
+	await get_tree().process_frame
 	target.enable_player()
 	art.visible = false
 	state.placed = false
-	state.art_data = ImageData.new(art.texture.get_image(), true)
-	
+
+func calculate_original_image_data():
+	state.art_data = ImageData.new(art.texture.get_image())
+
+
 func place_forgery(target = null):
 	target.enable_player()
 	var forged_image = Image.load_from_file(state.forgery_path)

@@ -7,4 +7,5 @@ func interact(target = null) -> void:
 	Camera.add_ui(popup)
 
 func exit():
+	GameState.escaped = true
 	SceneManager.change_scene(self.owner, results_scene, Callable(), false, Camera.canvas)

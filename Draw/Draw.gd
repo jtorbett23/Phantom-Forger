@@ -84,15 +84,25 @@ func settings() -> void:
 func exit() -> void:
 	var current_forgery : Image = drawer.viewport.get_texture().get_image()
 	drawer.draw_state.image = current_forgery
+	var creating_popup : PopupTurbo = PopupTurbo.new("Creating forgeries...", PopupTurbo.STATIC)
+	Camera.add_ui(creating_popup)
+	await RenderingServer.frame_post_draw
 
 	for index in paintings.size():
-		var forged_painting : Image = draw_states[index].image
-		if forged_painting != null:
-			var forgery_path : String = "{0}/{1}.png".format({"0" : forgery_image_folder,"1": str(paintings[index].id)})
-			forged_painting.save_png(forgery_path)
-			paintings[index].forged = true
-			paintings[index].forgery_path = forgery_path
-			paintings[index].forgery_data = ImageData.new(forged_painting, true)
+		var same_forge : bool= false
+		if(paintings[index].forgery_path):
+			var image_metrics : Dictionary = draw_states[index].image.compute_image_metrics(Image.load_from_file(paintings[index].forgery_path), true)
+			if(image_metrics.max == 0):
+				same_forge = true
+		if(!paintings[index].forged and !same_forge):
+			var forged_painting : Image = draw_states[index].image
+			if forged_painting != null:
+				var forgery_path : String = "{0}/{1}.png".format({"0" : forgery_image_folder,"1": str(paintings[index].id)})
+				forged_painting.save_png(forgery_path)
+				paintings[index].forged = true
+				paintings[index].forgery_path = forgery_path
+				paintings[index].forgery_data = ImageData.new(forged_painting)
+	creating_popup.close()
 
 	var travel_instance = load(travel_scene).instantiate()
 	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
