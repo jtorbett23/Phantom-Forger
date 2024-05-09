@@ -10,7 +10,9 @@ static var draw_states : Dictionary
 static var value_base : int = 800
 static var value_range : int = 500
 static var money : int = 0
+static var money_goal : int = 3000
 static var suspicion : float = 0
+static var escaped : bool = false
 
 static var name_to_colour : Dictionary = {
 	"Default" : Color.WHITE,
@@ -34,6 +36,7 @@ static func reset():
 	money = 0
 	suspicion = 0
 	setup_paintings()
+	escaped = false
 
 static var game_tint_name : String = "Default"
 

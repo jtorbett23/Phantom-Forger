@@ -14,3 +14,23 @@ script = ExtResource("1_y27nh")
 
 [node name="PaintingResults" parent="." instance=ExtResource("2_jwh1l")]
 position = Vector2(812, 64)
+
+[node name="OutcomeContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 111.0
+offset_right = 293.0
+offset_bottom = 188.0
+
+[node name="Money" type="Label" parent="OutcomeContainer"]
+layout_mode = 2
+text = "Money: 3000/3000
+"
+
+[node name="Suspicion" type="Label" parent="OutcomeContainer"]
+layout_mode = 2
+text = "Suspicion : 100%"
+
+[node name="Outcome" type="Label" parent="OutcomeContainer"]
+layout_mode = 2
+autowrap_mode = 3
