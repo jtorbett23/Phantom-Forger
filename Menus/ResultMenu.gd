@@ -23,7 +23,7 @@ func _ready() -> void:
 	money.custom_minimum_size = label_min_size
 	money.text = "Money: £" + str(GameState.money) + "/" + str(GameState.money_goal)
 	sus.custom_minimum_size = label_min_size
-	sus.text = "Suspicion: " + str(GameState.suspicion) + "%"
+	sus.text = "Suspicion: " + str(round(GameState.suspicion)) + "%"
 	outcome.custom_minimum_size = Vector2(250, 30)
 	var escaped_text : String = "escaped without getting caught."
 	var debt_text : String = "managed to pay their debt."
