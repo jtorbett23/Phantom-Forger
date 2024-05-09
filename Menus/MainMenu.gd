@@ -11,7 +11,7 @@ func _ready() -> void:
 	[	{"name": "Start Game", "callback": Callable(self, "start_game")}, 
 		{"name":"Settings", "callback": Callable(self, "settings")},
 		{"name":"Credits", "callback": Callable(self, "credits")}
-		], "By Moshu")
+		], "By Moshu")	
 
 func start_game() -> void:
 	GameState.reset()

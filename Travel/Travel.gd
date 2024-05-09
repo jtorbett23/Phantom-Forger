@@ -5,6 +5,7 @@ var music_path : String = "res://assets/audio/music/nighttime.mp3"
 @onready var office : TileMap = $Office
 @onready var halls12 : TileMap = $"Halls1-2"
 @onready var halls4 : TileMap = $Halls4
+var results_scene : String = "res://Menus/results.tscn"
 
 var ui : Array = []
 var header : HeaderTurbo
@@ -57,3 +58,10 @@ func update_header_money(value: int):
 func update_header_sus(value: float):
 	var rounded_value : String = str(round(value))
 	header.update_label("Suspicion", ": " + rounded_value + "%")
+
+func trigger_alarm():
+	Camera.add_ui(AlarmPopup.new("Alarm triggered! Escape while you can!", PopupTurbo.STATIC, Callable(self, "caught")))
+
+func caught():
+	player.disable_player()
+	SceneManager.change_scene(self, results_scene, Callable(), false, Camera.canvas)

@@ -55,14 +55,14 @@ func remove_original(target = null) -> void:
 	Camera.add_ui(take_popup)
 	await RenderingServer.frame_post_draw
 	take_popup.make_callback(Callable(self, "calculate_original_image_data"))
-	await get_tree().process_frame
-	target.enable_player()
 	art.visible = false
 	state.placed = false
+	await RenderingServer.frame_post_draw
+	target.enable_player()
+	await RenderingServer.frame_post_draw
 
 func calculate_original_image_data():
 	state.art_data = ImageData.new(art.texture.get_image())
-
 
 func place_forgery(target = null):
 	target.enable_player()
@@ -75,6 +75,7 @@ func place_forgery(target = null):
 	GameState.suspicion += (95 - state.accuracy)
 	if GameState.suspicion > 100:
 		GameState.suspicion = 100
+		self.owner.trigger_alarm()
 	owner.update_header_sus(GameState.suspicion)
 	GameState.money += state.value
 	owner.update_header_money(GameState.money)
