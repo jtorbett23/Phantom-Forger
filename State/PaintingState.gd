@@ -17,7 +17,7 @@ var forgery_path : String
 var forgery_data : ImageData
 var placed : bool = true
 var forged : bool = false
-var accuracy : float = 0.0
+var accuracy : float = 0
 var value : int
 
 var rng = RandomNumberGenerator.new()

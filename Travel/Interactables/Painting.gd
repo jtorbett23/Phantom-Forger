@@ -59,8 +59,6 @@ func remove_original(target = null) -> void:
 func place_forgery(target = null):
 	target.enable_player()
 	var forged_image = Image.load_from_file(state.forgery_path)
-	var original_texture : Texture2D = load(state.art_path)
-	var original_image : Image = original_texture.get_image()
 	art.texture = ImageTexture.create_from_image(forged_image)
 	art.visible = true
 	state.placed = true
