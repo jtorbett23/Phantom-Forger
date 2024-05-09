@@ -9,9 +9,10 @@ func _ready() -> void:
 	Level & Character
 	- Momo
 	Paintings
-	- delapouite - https://delapouite.com
-	- caro-asercion
-	- skoll
+	- Lorc, http://lorcblog.blogspot.com
+	- Delapouite - https://delapouite.com
+	- Caro Asercion
+	- Skoll
 	"
 	
 	self.set_content("Credits", 
