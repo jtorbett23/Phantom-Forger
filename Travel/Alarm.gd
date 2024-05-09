@@ -3,7 +3,7 @@ extends PopupTurbo
 class_name AlarmPopup
 
 var percentage_from_top : float = 20
-var alarm_time : float = 5 #change to 30
+var alarm_time : float = 30 
 var remaning_time : float = alarm_time
 var seperation : int = 10
 var timer_label : Label 

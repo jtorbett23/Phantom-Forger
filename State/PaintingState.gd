@@ -2,8 +2,7 @@ extends RefCounted
 
 class_name PaintingState 
 
-static var art_paths : Array[String] = ["res://assets/art/paintings/rabbit.png", "res://assets/art/paintings/sea-star.png", "res://assets/art/paintings/bunny-slippers.png", "res://assets/art/paintings/tortoise.png", "res://assets/art/paintings/axolotl.png", "res://assets/art/paintings/whale-tail.png", "res://assets/art/paintings/pig.png", "res://assets/art/paintings/koala.png"]
-
+static var art_paths : Array[String] = ["res://assets/art/paintings/wood-axe.png", "res://assets/art/paintings/rabbit.png", "res://assets/art/paintings/plunger.png", "res://assets/art/paintings/sea-star.png", "res://assets/art/paintings/bunny-slippers.png", "res://assets/art/paintings/hook.png", "res://assets/art/paintings/spade.png", "res://assets/art/paintings/tortoise.png", "res://assets/art/paintings/weight.png", "res://assets/art/paintings/axolotl.png", "res://assets/art/paintings/whale-tail.png", "res://assets/art/paintings/anvil.png", "res://assets/art/paintings/sickle.png", "res://assets/art/paintings/pig.png", "res://assets/art/paintings/koala.png", "res://assets/art/paintings/spanner.png"]
 # TODO: export art paths prior  via AssetHelper
 # static var art_paths : Array[String] = AssetsHelper.get_file_paths(AssetsHelper.paintings_folder_path, "png")
 static var free_art_paths : Array[String] = art_paths.duplicate()
