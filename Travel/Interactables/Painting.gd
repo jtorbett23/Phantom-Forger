@@ -36,27 +36,29 @@ func interact(target = null) -> void:
 	if(state.placed == true and state.forged == false):
 		var question : String = "Are you sure you want to take this painting valued £" + str(state.value) + "?\n If you do you must replace it with a forgery."
 		var popup = PopupTurbo.new(question, PopupTurbo.QUESTION, Callable(target, "enable_player"), Callable(self, "remove_original").bind(target))
-		Camera.add_ui(popup)
+		UiManager.add(popup)
 	elif(state.placed == false and state.forged == false):
 		var message : String = "You still need to make a forgery for this painting."
 		var popup = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"))
-		Camera.add_ui(popup)
+		UiManager.add(popup)
 	elif(state.placed == false and state.forged == true):
 		var question : String = "Are you sure you want to place this forgery?\n You cannot change it after."
 		var popup = PopupTurbo.new(question, PopupTurbo.QUESTION, Callable(target, "enable_player"), Callable(self, "place_forgery").bind(target))
-		Camera.add_ui(popup)
+		UiManager.add(popup)
 	elif(state.placed == true and state.forged == true):
 		var message : String = "This painting has been forged and cannot be changed."
 		var popup = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"))
-		Camera.add_ui(popup)
+		UiManager.add(popup)
 
 func remove_original(target = null) -> void:
 	var take_popup : PopupTurbo = PopupTurbo.new("Taking painting...", PopupTurbo.STATIC)
-	Camera.add_ui(take_popup)
+	UiManager.add(take_popup)
+	await get_tree().create_timer(0.1).timeout
 	await RenderingServer.frame_post_draw
 	take_popup.make_callback(Callable(self, "calculate_original_image_data"))
 	art.visible = false
 	state.placed = false
+	await get_tree().create_timer(0.3).timeout
 	await RenderingServer.frame_post_draw
 	target.enable_player()
 	await RenderingServer.frame_post_draw

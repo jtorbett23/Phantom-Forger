@@ -18,9 +18,9 @@ func _ready() -> void:
 	if OS.has_feature("web"):
 		forgery_image_folder = "."
 	AudioManager.play_music(music_path)
-	Camera.set_static()
+	# Camera.set_static()
 	header = HeaderTurbo.new()
-	Camera.add_ui(header)
+	UiManager.add(header)
 
 	var art_paths : Array[String] = []
 
@@ -79,13 +79,13 @@ func set_brush_size(index: int, dropdown: OptionButton):
 
 func settings() -> void:
 	drawer.disable()
-	Camera.add_ui(SettingsMenu.new(Callable(drawer, "enable")))
+	UiManager.add(SettingsMenu.new(Callable(drawer, "enable")))
 
 func exit() -> void:
 	var current_forgery : Image = drawer.viewport.get_texture().get_image()
 	drawer.draw_state.image = current_forgery
 	var creating_popup : PopupTurbo = PopupTurbo.new("Creating forgeries...", PopupTurbo.STATIC)
-	Camera.add_ui(creating_popup)
+	UiManager.add(creating_popup)
 	await RenderingServer.frame_post_draw
 
 	for index in paintings.size():

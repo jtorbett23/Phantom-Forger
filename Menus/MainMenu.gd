@@ -5,7 +5,7 @@ class_name MainMenu
 var music_path : String = "res://assets/audio/music/menu.mp3"
 
 func _ready() -> void:
-	Camera.set_static()
+	# Camera.set_static()
 	AudioManager.play_music(music_path)
 	self.set_content("Phantom Forger", 
 	[	{"name": "Start Game", "callback": Callable(self, "start_game")}, 
@@ -16,13 +16,14 @@ func _ready() -> void:
 func start_game() -> void:
 	GameState.reset()
 	var story_menu : StoryMenu = StoryMenu.new(Callable(self, "close"))
-	Camera.add_ui(story_menu)
+	UiManager.add(story_menu)
+	queue_free()
 
 func close() -> void:
 	self.queue_free()
 
 func settings():
-	Camera.add_ui(SettingsMenu.new())
+	UiManager.add(SettingsMenu.new())
 
 func credits():
-	Camera.add_ui(CreditsMenu.new())
+	UiManager.add(CreditsMenu.new())

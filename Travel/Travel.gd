@@ -10,13 +10,15 @@ var results_scene : String = "res://Menus/results.tscn"
 var ui : Array = []
 var header : HeaderTurbo
 
+var camera : Camera2DTurbo = Camera2DTurbo.new()
 
 func _ready() -> void:
 	PaintingState.count = 0
 	AudioManager.play_music(music_path)
-	Camera.set_follow(player)
+	add_child(camera)
+	camera.set_follow(player)
 	header = HeaderTurbo.new()
-	Camera.add_ui(header)
+	UiManager.add(header)
 	header.set_content("TravelHeader",
 	[ 
 		{"name": "Suspicion", "type": Label},
@@ -32,7 +34,7 @@ func _ready() -> void:
 
 func settings() -> void:
 	player.disable_player()
-	Camera.add_ui((SettingsMenu.new(Callable(self, "post_fade_out"))))
+	UiManager.add((SettingsMenu.new(Callable(self, "post_fade_out"))))
 
 func post_fade_out() -> void:
 	player.sprite.modulate = GameState.herb_colour
@@ -42,7 +44,7 @@ func set_office_limits() -> void:
 	var cellsize = office.tile_set.tile_size
 	# Camera Limits - Office
 	var office_limits = office.get_used_rect()
-	Camera.set_limits(office_limits.position.x * cellsize.x, office_limits.end.x * cellsize.x * office.scale.x)
+	camera.set_limits(office_limits.position.x * cellsize.x, office_limits.end.x * cellsize.x * office.scale.x)
 
 func set_halls_limits() -> void:
 	var cellsize = halls12.tile_set.tile_size
@@ -50,7 +52,7 @@ func set_halls_limits() -> void:
 	var halls_end_limits = halls4.get_used_rect()
 	var halls_start_x = halls12.position.x
 	var halls_end_x =  halls4.position.x + halls_end_limits.end.x * cellsize.x * halls4.scale.x
-	Camera.set_limits(halls_start_x, halls_end_x)
+	camera.set_limits(halls_start_x, halls_end_x)
 
 func update_header_money(value: int):
 	header.update_label("Money", ": £" + str(value))
@@ -60,8 +62,8 @@ func update_header_sus(value: float):
 	header.update_label("Suspicion", ": " + rounded_value + "%")
 
 func trigger_alarm():
-	Camera.add_ui(AlarmPopup.new("Alarm triggered! Escape while you can!", PopupTurbo.STATIC, Callable(self, "caught")))
+	UiManager.add(AlarmPopup.new("Alarm triggered! Escape while you can!", PopupTurbo.STATIC, Callable(self, "caught")))
 
 func caught():
 	player.disable_player()
-	SceneManager.change_scene(self, results_scene, Callable(), false, Camera.canvas)
+	SceneManager.change_scene(self, results_scene, Callable(), false, UiManager.layers[0])

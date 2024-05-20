@@ -3,7 +3,7 @@ extends MenuTurbo
 class_name CreditsMenu
 
 func _ready() -> void:
-	Camera.set_static()
+	# Camera.set_static()
 
 	var credits_text = "Art:
 	Level & Character

@@ -7,7 +7,7 @@ var music_path : String = "res://assets/audio/music/daytime.mp3"
 @onready var outcome : Label = $OutcomeContainer/Outcome
 
 func _ready() -> void:
-	Camera.set_static()
+	# Camera.set_static()
 	AudioManager.play_music(music_path)
 
 	var menu_content : Array[Dictionary] = [
@@ -51,7 +51,7 @@ func _ready() -> void:
 
 
 func exit():
-	SceneManager.change_scene(self, MainMenu, Callable(), false, Camera.canvas)
+	SceneManager.change_scene(self, MainMenu, Callable(), false, UiManager.layers[0])
 
 
 

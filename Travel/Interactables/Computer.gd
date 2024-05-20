@@ -12,5 +12,5 @@ func interact(target = null) -> void:
 	else:
 		var message : String = "You need a painting to be able to forge."
 		var popup : PopupTurbo = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"))
-		Camera.add_ui(popup)
+		UiManager.add(popup)
 

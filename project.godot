@@ -13,17 +13,19 @@ config_version=5
 config/name="Phantom-Forger"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+boot_splash/show_image=false
 config/icon="res://icon.png"
 
 [autoload]
 
 AudioManager="*res://libs/Godot-Turbo-Library/singletons/AudioManager.gd"
-Camera="*res://libs/Godot-Turbo-Library/singletons/Camera2D.gd"
+UiManager="*res://libs/Godot-Turbo-Library/ui/UIManager.gd"
 SceneManager="*res://libs/Godot-Turbo-Library/SceneManager.gd"
 
 [display]
 
 window/size/resizable=false
+window/stretch/mode="canvas_items"
 window/dpi/allow_hidpi=false
 
 [input]

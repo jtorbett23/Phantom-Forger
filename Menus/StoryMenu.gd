@@ -11,7 +11,7 @@ func _init(on_close_callback : Callable = Callable()):
 	self.close_callback = on_close_callback
 
 func _ready() -> void:
-	Camera.set_static()
+	# Camera.set_static()
 
 	var story_text = "In this game you play as Herb, a security guard at a museum. Herb has some big debts, and needs to forge some art to pay them. On the last day of the month they switch out the art, which is the perfect time to strike.
 	
@@ -26,5 +26,3 @@ func _ready() -> void:
 func proceed() -> void:
 	var travel_instance = load(travel_scene).instantiate()
 	SceneManager.change_scene(self, travel_instance, Callable(travel_instance, "post_fade_out"), true)
-	if !close_callback.is_null():
-		close_callback.call()
