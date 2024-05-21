@@ -11,6 +11,7 @@ func _init() -> void:
 	sprite = Sprite2D.new()
 	sprite.texture = load(herb_path)
 	sprite.scale = sprite_size / sprite.texture.get_size()
+	sprite.position -= Vector2(10,10)
 	add_child(sprite)
 	dropdown.connect("item_selected", update_colour)
 

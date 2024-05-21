@@ -18,9 +18,9 @@ position = Vector2(812, 64)
 [node name="OutcomeContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 152.0
-offset_top = 111.0
+offset_top = 260.0
 offset_right = 293.0
-offset_bottom = 188.0
+offset_bottom = 337.0
 
 [node name="Money" type="Label" parent="OutcomeContainer"]
 layout_mode = 2
@@ -38,9 +38,9 @@ autowrap_mode = 3
 [node name="Outcome" type="Label" parent="."]
 layout_mode = 0
 offset_left = 173.0
-offset_top = 62.0
+offset_top = 211.0
 offset_right = 263.0
-offset_bottom = 90.0
+offset_bottom = 239.0
 theme_override_font_sizes/font_size = 20
 text = "Outcome
 "

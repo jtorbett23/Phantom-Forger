@@ -5,10 +5,13 @@ class_name SettingsMenu
 var close_callback : Callable
 
 func _init(on_close_callback : Callable = Callable()):
-	super()
+	title_percentage_from_top = GameState.ui_title_from_top
+	button_min_size = Vector2(140,30)
 	self.close_callback = on_close_callback
+	super._init("res://assets/Themes/ui-forger.png")
 
 func _ready() -> void:
+	theme = load("assets/Themes/ui.tres")
 	AudioManager.test_sound_path = "res://assets/audio/sound/droplet.mp3"
 	self.set_content("Settings", 
 	[	{"name": "Herb Colour", "type": ColourDropDown, 

@@ -14,6 +14,8 @@ static var money_goal : int = 3000
 static var suspicion : float = 0
 static var escaped : bool = false
 
+static var ui_title_from_top : int = 20
+
 static var name_to_colour : Dictionary = {
 	"Default" : Color.WHITE,
 	"Pink" : Color.LIGHT_PINK,

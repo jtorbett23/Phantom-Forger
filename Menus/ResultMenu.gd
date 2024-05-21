@@ -6,10 +6,16 @@ var music_path : String = "res://assets/audio/music/daytime.mp3"
 @onready var sus : Label = $OutcomeContainer/Suspicion 
 @onready var outcome : Label = $OutcomeContainer/Outcome
 
+func _init():
+	title_percentage_from_top = GameState.ui_title_from_top
+	button_min_size = Vector2(140,30)
+	super._init("res://assets/Themes/ui-forger.png")
+
+
 func _ready() -> void:
 	# Camera.set_static()
 	AudioManager.play_music(music_path)
-
+	theme = load("assets/Themes/ui.tres")
 	var menu_content : Array[Dictionary] = [
 		{"name":"Exit", "callback" : Callable(self, "exit")}
 	]
@@ -44,7 +50,7 @@ func _ready() -> void:
 		escaped_text = "did not escape and was sent to jail."
 		debt_text = "were unable to sell the paintings to pay their debt."
 	
-	var outcome_text : String = "Herb " + escaped_text + " From the heist they " + str(debt_text)
+	var outcome_text : String = "Herb " + escaped_text+ "\n" + " From the heist they " + str(debt_text)
 
 	outcome.text = outcome_text
 
