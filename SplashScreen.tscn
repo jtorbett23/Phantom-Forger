@@ -39,10 +39,10 @@ texture = ExtResource("3_1xwym")
 expand_mode = 1
 script = ExtResource("4_3ok1f")
 
-[node name="Moshu Games" type="Label" parent="SplashContainer"]
+[node name="Moshu" type="Label" parent="SplashContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "Moshu Games"
+text = "Moshu"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_3ok1f")

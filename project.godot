@@ -26,7 +26,6 @@ SceneManager="*res://libs/Godot-Turbo-Library/singletons/SceneManager.gd"
 [display]
 
 window/size/resizable=false
-window/stretch/mode="canvas_items"
 window/dpi/allow_hidpi=false
 
 [input]
