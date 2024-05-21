@@ -266,7 +266,7 @@ func compare(ref : ImageData) -> float:
 	var final_percent : float = (shape_count_percent + placement_pixel_percent + same_colour_percent + (shape_accuracy_percent)) / 4
 
 	#fail cases
-	if ref.colour_counts[target_colour] == 0:
+	if !ref.colour_counts.has(target_colour) or ref.colour_counts[target_colour] == 0:
 		final_percent = 0
 	print("final score percent: " + str(final_percent) + "%")
 
