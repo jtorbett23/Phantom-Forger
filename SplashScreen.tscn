@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dux7gul7cdho8"]
 
-[ext_resource type="Script" path="res://libs/Godot-Turbo-Library/ui/splash/SplashScreenManager.gd" id="1_xg8pm"]
+[ext_resource type="Script" path="res://addons/Godot-Turbo-Library/ui/splash/SplashScreenManager.gd" id="1_xg8pm"]
 [ext_resource type="PackedScene" uid="uid://pe7d438dbj1f" path="res://main.tscn" id="2_es440"]
-[ext_resource type="Texture2D" uid="uid://cukylmm4xpa2b" path="res://libs/Godot-Turbo-Library/ui/splash/godot-small.png" id="3_1xwym"]
-[ext_resource type="Script" path="res://libs/Godot-Turbo-Library/ui/splash/SplashScreen.gd" id="4_3ok1f"]
+[ext_resource type="Texture2D" uid="uid://bx1241ckqnnud" path="res://addons/Godot-Turbo-Library/ui/splash/godot-small.png" id="3_1xwym"]
+[ext_resource type="Script" path="res://addons/Godot-Turbo-Library/ui/splash/SplashScreen.gd" id="4_3ok1f"]
 
 [node name="SplashScreen" type="Control"]
 layout_mode = 3

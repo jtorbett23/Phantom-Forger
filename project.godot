@@ -19,9 +19,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-AudioManager="*res://libs/Godot-Turbo-Library/singletons/AudioManager.gd"
-UiManager="*res://libs/Godot-Turbo-Library/ui/UIManager.gd"
-SceneManager="*res://libs/Godot-Turbo-Library/singletons/SceneManager.gd"
+AudioManager="*res://addons/Godot-Turbo-Library/singletons/AudioManager.gd"
+SceneManager="*res://addons/Godot-Turbo-Library/singletons/SceneManager.gd"
+UiManager="*res://addons/Godot-Turbo-Library/ui/UIManager.gd"
 
 [display]
 
