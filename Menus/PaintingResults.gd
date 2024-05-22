@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 const img_size : Vector2 = Vector2i(65,65)
 
@@ -12,7 +12,7 @@ func _ready():
 	var forged_count : int  = 0
 	for p in GameState.paintings.values():
 		if p.forged:
-			var container : Node2D = Node2D.new()
+			var container : Control = Control.new()
 			container.position.y = next_container_start_y
 			next_container_start_y += next_container_start_y_increase
 			self.add_child(container)

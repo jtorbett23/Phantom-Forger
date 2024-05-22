@@ -9,13 +9,12 @@ var music_path : String = "res://assets/audio/music/daytime.mp3"
 func _init():
 	title_percentage_from_top = GameState.ui_title_from_top
 	button_min_size = Vector2(140,30)
-	super._init("res://assets/Themes/ui-forger.png")
+	super._init("res://assets/Themes/ui-forger-2.png")
 
 
 func _ready() -> void:
 	# Camera.set_static()
 	AudioManager.play_music(music_path)
-	theme = load("assets/Themes/ui.tres")
 	var menu_content : Array[Dictionary] = [
 		{"name":"Exit", "callback" : Callable(self, "exit")}
 	]

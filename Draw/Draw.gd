@@ -19,7 +19,8 @@ func _ready() -> void:
 		forgery_image_folder = "."
 	AudioManager.play_music(music_path)
 	# Camera.set_static()
-	header = HeaderTurbo.new()
+	header = HeaderTurbo.new("res://assets/Themes/ui-forger-3.png")
+
 	UiManager.add(header)
 
 	var art_paths : Array[String] = []
@@ -84,7 +85,7 @@ func settings() -> void:
 func exit() -> void:
 	var current_forgery : Image = drawer.viewport.get_texture().get_image()
 	drawer.draw_state.image = current_forgery
-	var creating_popup : PopupTurbo = PopupTurbo.new("Creating forgeries...", PopupTurbo.STATIC)
+	var creating_popup : PopupTurbo = PopupTurbo.new("Creating forgeries...", PopupTurbo.STATIC, Callable(), Callable(), "res://assets/Themes/ui-forger-2.png")
 	UiManager.add(creating_popup)
 	await RenderingServer.frame_post_draw
 

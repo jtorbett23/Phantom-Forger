@@ -2,11 +2,14 @@
 
 [ext_resource type="Script" path="res://Menus/PaintingResults.gd" id="1_m7ymh"]
 
-[node name="PaintingResults" type="Node2D"]
+[node name="PaintingResults" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_m7ymh")
 
 [node name="NoForges" type="Label" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 123.0
 offset_bottom = 28.0
 theme_override_font_sizes/font_size = 20

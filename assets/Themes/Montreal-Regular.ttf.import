@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dc0o5418rr0yd"
-path="res://.godot/imported/KiriFont.otf-4245b5346b3bc85997367271a56e3fc8.fontdata"
+uid="uid://0a37ys14vw3b"
+path="res://.godot/imported/Montreal-Regular.ttf-a5c9e3ca29e7acca75678bad2a6451b1.fontdata"
 
 [deps]
 
-source_file="res://assets/Themes/KiriFont.otf"
-dest_files=["res://.godot/imported/KiriFont.otf-4245b5346b3bc85997367271a56e3fc8.fontdata"]
+source_file="res://assets/Themes/Montreal-Regular.ttf"
+dest_files=["res://.godot/imported/Montreal-Regular.ttf-a5c9e3ca29e7acca75678bad2a6451b1.fontdata"]
 
 [params]
 

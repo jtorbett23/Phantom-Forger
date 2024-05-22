@@ -11,6 +11,6 @@ func interact(target = null) -> void:
 		SceneManager.change_scene(self.owner, "res://Draw/draw.tscn")
 	else:
 		var message : String = "You need a painting to be able to forge."
-		var popup : PopupTurbo = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"))
+		var popup : PopupTurbo = PopupTurbo.new(message, PopupTurbo.MESSAGE, Callable(target, "enable_player"), Callable(), "res://assets/Themes/ui-forger-2.png")
 		UiManager.add(popup)
 

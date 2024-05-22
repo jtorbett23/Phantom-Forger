@@ -19,8 +19,6 @@ func _ready() -> void:
 		{"name":"Credits", "callback": Callable(self, "credits")}
 		])
 	
-	theme = load("assets/Themes/ui.tres")
-
 func start_game() -> void:
 	GameState.reset()
 	var story_menu : StoryMenu = StoryMenu.new(Callable(self, "close"))

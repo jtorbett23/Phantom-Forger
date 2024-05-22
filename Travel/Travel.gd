@@ -17,7 +17,7 @@ func _ready() -> void:
 	AudioManager.play_music(music_path)
 	add_child(camera)
 	camera.set_follow(player)
-	header = HeaderTurbo.new()
+	header = HeaderTurbo.new("res://assets/Themes/ui-forger-3.png")
 	UiManager.add(header)
 	header.set_content("TravelHeader",
 	[ 

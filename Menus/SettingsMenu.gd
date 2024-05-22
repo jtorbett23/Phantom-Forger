@@ -8,10 +8,14 @@ func _init(on_close_callback : Callable = Callable()):
 	title_percentage_from_top = GameState.ui_title_from_top
 	button_min_size = Vector2(140,30)
 	self.close_callback = on_close_callback
+
 	super._init("res://assets/Themes/ui-forger.png")
 
 func _ready() -> void:
-	theme = load("assets/Themes/ui.tres")
+	var grabber : Texture2D = load("res://assets/Themes/grabber.png")
+	var grabber_highlight : Texture2D = load("res://assets/Themes/grabber-highlight.png")
+	theme.set_icon("grabber","HSlider", grabber)
+	theme.set_icon("grabber_highlight","HSlider", grabber_highlight)
 	AudioManager.test_sound_path = "res://assets/audio/sound/droplet.mp3"
 	self.set_content("Settings", 
 	[	{"name": "Herb Colour", "type": ColourDropDown, 
@@ -24,6 +28,10 @@ func _ready() -> void:
 		{"name": "Sound Volume", "type": HSliderTurbo, 
 		"value": AudioManager.current_sound_level, "callback": Callable(AudioManager, "set_sound_volume")},
 		{"name":"Return", "callback": Callable(self, "close") }])
+	var option : OptionButton = $"Inputs/Herb Colour/Herb Colour"
+	option.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	# $"Inputs/Music Volume/Music Volume".theme.grabber.modulate = Color(25,48,68)
+
 
 func close() -> void:
 	self.queue_free()
