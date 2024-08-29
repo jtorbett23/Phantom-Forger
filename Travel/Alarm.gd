@@ -15,7 +15,7 @@ var callback : Callable
 
 
 func _init(message : String = "Test", mode : int = STATIC, close_callback: Callable = Callable()) -> void:
-	super(message, mode, close_callback)
+	super(message, mode, close_callback, Callable(), "res://assets/Themes/ui-forger-3.png")
 	self.set_anchors_preset(PRESET_CENTER_TOP)
 	self.callback = close_callback
 	timer_label = Label.new()

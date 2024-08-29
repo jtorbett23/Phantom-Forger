@@ -49,7 +49,7 @@ func _ready() -> void:
 		escaped_text = "did not escape and was sent to jail."
 		debt_text = "were unable to sell the paintings to pay their debt."
 	
-	var outcome_text : String = "Herb " + escaped_text+ "\n" + " From the heist they " + str(debt_text)
+	var outcome_text : String = "Herb " + escaped_text+ "\n" + "From the heist they " + str(debt_text)
 
 	outcome.text = outcome_text
 

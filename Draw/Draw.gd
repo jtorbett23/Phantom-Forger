@@ -86,16 +86,18 @@ func exit() -> void:
 	var current_forgery : Image = drawer.viewport.get_texture().get_image()
 	drawer.draw_state.image = current_forgery
 	var creating_popup : PopupTurbo = PopupTurbo.new("Creating forgeries...", PopupTurbo.STATIC, Callable(), Callable(), "res://assets/Themes/ui-forger-2.png")
-	UiManager.add(creating_popup)
-	await RenderingServer.frame_post_draw
-
+	var pop_up_visible : bool = false
 	for index in paintings.size():
-		var same_forge : bool= false
+		var same_forge : bool = false
 		if(paintings[index].forgery_path):
 			var image_metrics : Dictionary = draw_states[index].image.compute_image_metrics(Image.load_from_file(paintings[index].forgery_path), true)
 			if(image_metrics.max == 0):
 				same_forge = true
-		if(!paintings[index].forged and !same_forge):
+		if(!same_forge):
+			if(!pop_up_visible):
+				UiManager.add(creating_popup)
+				await RenderingServer.frame_post_draw
+				pop_up_visible = true
 			var forged_painting : Image = draw_states[index].image
 			if forged_painting != null:
 				var forgery_path : String = "{0}/{1}.png".format({"0" : forgery_image_folder,"1": str(paintings[index].id)})
